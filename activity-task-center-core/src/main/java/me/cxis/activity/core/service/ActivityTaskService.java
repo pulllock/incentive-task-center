@@ -70,7 +70,6 @@ public class ActivityTaskService {
             List<ActivityTaskRewardLog> rewardLogs = activityTaskRewardLogManager.query(userId, task.getId(), startDate, now);
 
             if (CollectionUtils.isEmpty(rewardLogs)) {
-                LOGGER.info("1 empty size");
                 // 没有记录
                 // 在新的periodInterval之内，需要记录执行日志和奖励日志
                 // 记录执行日志
@@ -83,10 +82,8 @@ public class ActivityTaskService {
                 activityTaskRewardLogManager.add(userId, task.getId(), status, source, sourceId);
             }
             else {
-                LOGGER.info("1 size: {}", rewardLogs.size());
                 // 查看是否有已完成的
                 List<ActivityTaskRewardLog> doneLog = rewardLogs.stream().filter(log -> log.getStatus() > 0).collect(Collectors.toList());
-                LOGGER.info("2 size: {}", doneLog.size());
                 if (CollectionUtils.isNotEmpty(doneLog)) {
                     // 有已完成的日志
                     // 如果有periodTimes条数据，说明还在periodInterval之内，则只记录执行日志
@@ -123,13 +120,11 @@ public class ActivityTaskService {
             now = LocalDateTime.now();
             startDate = now.toLocalDate().minusDays(periodInterval - 1).atStartOfDay();
             rewardLogs = activityTaskRewardLogManager.query(userId, task.getId(), startDate, now);
-            LOGGER.info("3 size: {}", rewardLogs.size());
             if (CollectionUtils.isNotEmpty(rewardLogs)) {
                 rewardLogs = rewardLogs.stream().filter(log -> log.getStatus().equals(0)).collect(Collectors.toList());
-                LOGGER.info("4 size: {}", rewardLogs.size());
                 if (rewardLogs.size() == periodTimes) {
                     // 发放奖励
-                    System.out.println("！！！！！！发放奖励！！！！！！");
+                    LOGGER.info("！！！！！！发放奖励！！！！！！");
                     // 更新这一批日志状态为发放奖励状态
                     for (ActivityTaskRewardLog rewardLog : rewardLogs) {
                         activityTaskRewardLogManager.updateStatus(rewardLog.getId(), 2);
