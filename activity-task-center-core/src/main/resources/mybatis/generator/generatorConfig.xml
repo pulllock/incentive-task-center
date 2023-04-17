@@ -41,17 +41,7 @@
         </javaClientGenerator>
 
         <!-- 生成对应表及类名 -->
-        <table catalog="activity_task_center" tableName="activity_event_group" domainObjectName="ActivityEventGroupDO" mapperName="ActivityEventGroupMapper"
-               enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
-            <!-- 防止生成的sql中多了表名 -->
-            <property name="ignoreQualifiersAtRuntime" value="true"/>
-        </table>
 
-        <table catalog="activity_task_center" tableName="activity_event" domainObjectName="ActivityEventDO" mapperName="ActivityEventMapper"
-               enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
-            <!-- 防止生成的sql中多了表名 -->
-            <property name="ignoreQualifiersAtRuntime" value="true"/>
-        </table>
 
         <table catalog="activity_task_center" tableName="activity_task" domainObjectName="ActivityTaskDO" mapperName="ActivityTaskMapper"
                enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
@@ -59,22 +49,6 @@
             <property name="ignoreQualifiersAtRuntime" value="true"/>
         </table>
 
-        <table catalog="activity_task_center" tableName="activity_user_task" domainObjectName="ActivityUserTaskDO" mapperName="ActivityUserTaskMapper"
-               enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
-            <!-- 防止生成的sql中多了表名 -->
-            <property name="ignoreQualifiersAtRuntime" value="true"/>
-        </table>
 
-        <table catalog="activity_task_center" tableName="activity_task_execution_log" domainObjectName="ActivityTaskExecutionLogDO" mapperName="ActivityTaskExecutionLogMapper"
-               enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
-            <!-- 防止生成的sql中多了表名 -->
-            <property name="ignoreQualifiersAtRuntime" value="true"/>
-        </table>
-
-        <table catalog="activity_task_center" tableName="activity_task_reward_log" domainObjectName="ActivityTaskRewardLogDO" mapperName="ActivityTaskRewardLogMapper"
-               enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
-            <!-- 防止生成的sql中多了表名 -->
-            <property name="ignoreQualifiersAtRuntime" value="true"/>
-        </table>
     </context>
 </generatorConfiguration>

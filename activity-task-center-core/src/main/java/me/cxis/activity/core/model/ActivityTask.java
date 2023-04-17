@@ -66,6 +66,10 @@ public class ActivityTask {
 
     private Integer rewardProvideMode;
 
+    private Long goal;
+
+    private Long extraRewardNumber;
+
     public Long getId() {
         return id;
     }
@@ -314,6 +318,22 @@ public class ActivityTask {
         this.rewardProvideMode = rewardProvideMode;
     }
 
+    public Long getGoal() {
+        return goal;
+    }
+
+    public void setGoal(Long goal) {
+        this.goal = goal;
+    }
+
+    public Long getExtraRewardNumber() {
+        return extraRewardNumber;
+    }
+
+    public void setExtraRewardNumber(Long extraRewardNumber) {
+        this.extraRewardNumber = extraRewardNumber;
+    }
+
     @Override
     public String toString() {
         return "ActivityTask{" +
@@ -348,6 +368,8 @@ public class ActivityTask {
                 ", rewardType=" + rewardType +
                 ", rewardNumber=" + rewardNumber +
                 ", rewardProvideMode=" + rewardProvideMode +
+                ", goal=" + goal +
+                ", extraRewardNumber=" + extraRewardNumber +
                 '}';
     }
 }

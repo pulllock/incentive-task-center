@@ -3,6 +3,7 @@ package me.cxis.activity.core.dao.mapper;
 import me.cxis.activity.core.dao.model.ActivityTaskDO;
 
 public interface ActivityTaskMapper {
+
     int deleteByPrimaryKey(Long id);
 
     int insert(ActivityTaskDO row);

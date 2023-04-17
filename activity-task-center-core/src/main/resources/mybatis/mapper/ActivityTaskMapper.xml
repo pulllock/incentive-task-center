@@ -33,13 +33,15 @@
     <result column="reward_type" jdbcType="INTEGER" property="rewardType" />
     <result column="reward_number" jdbcType="BIGINT" property="rewardNumber" />
     <result column="reward_provide_mode" jdbcType="SMALLINT" property="rewardProvideMode" />
+    <result column="goal" jdbcType="BIGINT" property="goal" />
+    <result column="extra_reward_number" jdbcType="BIGINT" property="extraRewardNumber" />
   </resultMap>
   <sql id="Base_Column_List">
     id, create_time, update_time, creator_id, modifier_id, deleted, version, code, event_id, 
     name, description, simple_type, type, complete_type, parent_id, status, category, 
     valid_period_type, valid_time_start, valid_time_end, valid_days, rule_type, period_type, 
     period_unit, period_interval, period_times, url, url_target_type, reward_type, reward_number, 
-    reward_provide_mode
+    reward_provide_mode, goal, extra_reward_number
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
@@ -47,7 +49,6 @@
     from activity_task
     where id = #{id,jdbcType=BIGINT}
   </select>
-
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from activity_task
     where id = #{id,jdbcType=BIGINT}
@@ -63,7 +64,8 @@
       rule_type, period_type, period_unit, 
       period_interval, period_times, url, 
       url_target_type, reward_type, reward_number, 
-      reward_provide_mode)
+      reward_provide_mode, goal, extra_reward_number
+      )
     values (#{id,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
       #{creatorId,jdbcType=BIGINT}, #{modifierId,jdbcType=BIGINT}, #{deleted,jdbcType=BIT}, 
       #{version,jdbcType=BIGINT}, #{code,jdbcType=VARCHAR}, #{eventId,jdbcType=BIGINT}, 
@@ -74,7 +76,8 @@
       #{ruleType,jdbcType=SMALLINT}, #{periodType,jdbcType=SMALLINT}, #{periodUnit,jdbcType=SMALLINT}, 
       #{periodInterval,jdbcType=BIGINT}, #{periodTimes,jdbcType=BIGINT}, #{url,jdbcType=VARCHAR}, 
       #{urlTargetType,jdbcType=SMALLINT}, #{rewardType,jdbcType=INTEGER}, #{rewardNumber,jdbcType=BIGINT}, 
-      #{rewardProvideMode,jdbcType=SMALLINT})
+      #{rewardProvideMode,jdbcType=SMALLINT}, #{goal,jdbcType=BIGINT}, #{extraRewardNumber,jdbcType=BIGINT}
+      )
   </insert>
   <insert id="insertSelective" parameterType="me.cxis.activity.core.dao.model.ActivityTaskDO">
     insert into activity_task
@@ -172,6 +175,12 @@
       <if test="rewardProvideMode != null">
         reward_provide_mode,
       </if>
+      <if test="goal != null">
+        goal,
+      </if>
+      <if test="extraRewardNumber != null">
+        extra_reward_number,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -266,6 +275,12 @@
       </if>
       <if test="rewardProvideMode != null">
         #{rewardProvideMode,jdbcType=SMALLINT},
+      </if>
+      <if test="goal != null">
+        #{goal,jdbcType=BIGINT},
+      </if>
+      <if test="extraRewardNumber != null">
+        #{extraRewardNumber,jdbcType=BIGINT},
       </if>
     </trim>
   </insert>
@@ -362,6 +377,12 @@
       <if test="rewardProvideMode != null">
         reward_provide_mode = #{rewardProvideMode,jdbcType=SMALLINT},
       </if>
+      <if test="goal != null">
+        goal = #{goal,jdbcType=BIGINT},
+      </if>
+      <if test="extraRewardNumber != null">
+        extra_reward_number = #{extraRewardNumber,jdbcType=BIGINT},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -396,10 +417,11 @@
       url_target_type = #{urlTargetType,jdbcType=SMALLINT},
       reward_type = #{rewardType,jdbcType=INTEGER},
       reward_number = #{rewardNumber,jdbcType=BIGINT},
-      reward_provide_mode = #{rewardProvideMode,jdbcType=SMALLINT}
+      reward_provide_mode = #{rewardProvideMode,jdbcType=SMALLINT},
+      goal = #{goal,jdbcType=BIGINT},
+      extra_reward_number = #{extraRewardNumber,jdbcType=BIGINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
-
 
   <select id="selectByEventId" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select

@@ -73,6 +73,8 @@ CREATE TABLE activity_task (
   reward_type         int(10)                            NOT NULL COMMENT '类型：10-积分 20-金币 30-券 40-返现 50-话费 60-红包',
   reward_number       bigint(20)                         NOT NULL COMMENT '数量',
   reward_provide_mode smallint(6)                        NOT NULL COMMENT '奖励发放方式：1-自动发放 2-用户领取',
+  goal                bigint(20)                                  DEFAULT NULL COMMENT '目标数量',
+  extra_reward_number bigint(20)                                  DEFAULT NULL COMMENT '额外奖励数量',
   PRIMARY KEY (id),
   UNIQUE KEY uniq_code_deleted (code, deleted),
   KEY idx_creator_id (creator_id),

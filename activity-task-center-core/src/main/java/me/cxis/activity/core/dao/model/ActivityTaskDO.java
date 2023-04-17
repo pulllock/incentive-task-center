@@ -3,6 +3,7 @@ package me.cxis.activity.core.dao.model;
 import java.time.LocalDateTime;
 
 public class ActivityTaskDO {
+    
     private Long id;
 
     private LocalDateTime createTime;
@@ -64,6 +65,10 @@ public class ActivityTaskDO {
     private Long rewardNumber;
 
     private Integer rewardProvideMode;
+
+    private Long goal;
+
+    private Long extraRewardNumber;
 
     public Long getId() {
         return id;
@@ -311,5 +316,21 @@ public class ActivityTaskDO {
 
     public void setRewardProvideMode(Integer rewardProvideMode) {
         this.rewardProvideMode = rewardProvideMode;
+    }
+
+    public Long getGoal() {
+        return goal;
+    }
+
+    public void setGoal(Long goal) {
+        this.goal = goal;
+    }
+
+    public Long getExtraRewardNumber() {
+        return extraRewardNumber;
+    }
+
+    public void setExtraRewardNumber(Long extraRewardNumber) {
+        this.extraRewardNumber = extraRewardNumber;
     }
 }
