@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="me.cxis.activity.core.dao.mapper.ActivityTaskExecutionLogMapper">
-  <resultMap id="BaseResultMap" type="me.cxis.activity.core.dao.model.ActivityTaskExecutionLogDO">
+<mapper namespace="fun.pullock.activity.core.dao.mapper.ActivityTaskExecutionLogMapper">
+  <resultMap id="BaseResultMap" type="fun.pullock.activity.core.dao.model.ActivityTaskExecutionLogDO">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
@@ -29,7 +29,7 @@
     delete from activity_task_execution_log
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="me.cxis.activity.core.dao.model.ActivityTaskExecutionLogDO">
+  <insert id="insert" parameterType="fun.pullock.activity.core.dao.model.ActivityTaskExecutionLogDO">
     insert into activity_task_execution_log (id, create_time, update_time, 
       creator_id, modifier_id, deleted, 
       version, user_id, task_id, 
@@ -41,7 +41,7 @@
       #{needReward,jdbcType=BIT}, #{source,jdbcType=VARCHAR}, #{sourceId,jdbcType=VARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="me.cxis.activity.core.dao.model.ActivityTaskExecutionLogDO">
+  <insert id="insertSelective" parameterType="fun.pullock.activity.core.dao.model.ActivityTaskExecutionLogDO">
     insert into activity_task_execution_log
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -120,7 +120,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="me.cxis.activity.core.dao.model.ActivityTaskExecutionLogDO">
+  <update id="updateByPrimaryKeySelective" parameterType="fun.pullock.activity.core.dao.model.ActivityTaskExecutionLogDO">
     update activity_task_execution_log
     <set>
       <if test="createTime != null">
@@ -159,7 +159,7 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="me.cxis.activity.core.dao.model.ActivityTaskExecutionLogDO">
+  <update id="updateByPrimaryKey" parameterType="fun.pullock.activity.core.dao.model.ActivityTaskExecutionLogDO">
     update activity_task_execution_log
     set create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},

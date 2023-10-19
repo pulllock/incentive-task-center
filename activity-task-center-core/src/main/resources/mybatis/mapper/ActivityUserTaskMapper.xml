@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="me.cxis.activity.core.dao.mapper.ActivityUserTaskMapper">
-  <resultMap id="BaseResultMap" type="me.cxis.activity.core.dao.model.ActivityUserTaskDO">
+<mapper namespace="fun.pullock.activity.core.dao.mapper.ActivityUserTaskMapper">
+  <resultMap id="BaseResultMap" type="fun.pullock.activity.core.dao.model.ActivityUserTaskDO">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
@@ -29,7 +29,7 @@
     delete from activity_user_task
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="me.cxis.activity.core.dao.model.ActivityUserTaskDO">
+  <insert id="insert" parameterType="fun.pullock.activity.core.dao.model.ActivityUserTaskDO">
     insert into activity_user_task (id, create_time, update_time, 
       creator_id, modifier_id, deleted, 
       version, user_id, task_id, 
@@ -41,7 +41,7 @@
       #{status,jdbcType=SMALLINT}, #{validTimeStart,jdbcType=TIMESTAMP}, #{validTimeEnd,jdbcType=TIMESTAMP}
       )
   </insert>
-  <insert id="insertSelective" parameterType="me.cxis.activity.core.dao.model.ActivityUserTaskDO">
+  <insert id="insertSelective" parameterType="fun.pullock.activity.core.dao.model.ActivityUserTaskDO">
     insert into activity_user_task
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -120,7 +120,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="me.cxis.activity.core.dao.model.ActivityUserTaskDO">
+  <update id="updateByPrimaryKeySelective" parameterType="fun.pullock.activity.core.dao.model.ActivityUserTaskDO">
     update activity_user_task
     <set>
       <if test="createTime != null">
@@ -159,7 +159,7 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="me.cxis.activity.core.dao.model.ActivityUserTaskDO">
+  <update id="updateByPrimaryKey" parameterType="fun.pullock.activity.core.dao.model.ActivityUserTaskDO">
     update activity_user_task
     set create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},

@@ -12,4 +12,4 @@ server:
 mybatis:
   config-location: classpath:mybatis/mybatis-config.xml
   mapper-locations: classpath:mybatis/mapper/*.xml
-  type-aliases-package: me.cxis.activity.core.dao.model
+  type-aliases-package: fun.pullock.activity.core.dao.model
