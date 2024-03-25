@@ -3,7 +3,7 @@ package fun.pullock.incentive.core.dao.mapper;
 import fun.pullock.incentive.core.dao.model.TaskDO;
 
 public interface TaskMapper {
-
+    
     int deleteByPrimaryKey(Long id);
 
     int insert(TaskDO row);
@@ -14,7 +14,7 @@ public interface TaskMapper {
 
     int updateByPrimaryKeySelective(TaskDO row);
 
-    int updateByPrimaryKey(TaskDO row);
+    int updateByPrimaryKeyWithBLOBs(TaskDO row);
 
-    TaskDO selectByEventId(Long eventId);
+    int updateByPrimaryKey(TaskDO row);
 }

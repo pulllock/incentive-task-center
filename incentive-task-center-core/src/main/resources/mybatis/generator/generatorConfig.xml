@@ -43,12 +43,34 @@
         <!-- 生成对应表及类名 -->
 
 
-        <table catalog="incentive_task_center" tableName="incentive_task" domainObjectName="IncentiveTaskDO" mapperName="IncentiveTaskMapper"
+        <table catalog="incentive_task_center" tableName="event" domainObjectName="EventDO" mapperName="EventMapper"
                enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
             <!-- 防止生成的sql中多了表名 -->
             <property name="ignoreQualifiersAtRuntime" value="true"/>
         </table>
 
+        <table catalog="incentive_task_center" tableName="task" domainObjectName="TaskDO" mapperName="TaskMapper"
+               enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+            <!-- 防止生成的sql中多了表名 -->
+            <property name="ignoreQualifiersAtRuntime" value="true"/>
+        </table>
 
+        <table catalog="incentive_task_center" tableName="user_task" domainObjectName="UserTaskDO" mapperName="UserTaskMapper"
+               enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+            <!-- 防止生成的sql中多了表名 -->
+            <property name="ignoreQualifiersAtRuntime" value="true"/>
+        </table>
+
+        <table catalog="incentive_task_center" tableName="trigger_log" domainObjectName="TriggerLogDO" mapperName="TriggerLogMapper"
+               enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+            <!-- 防止生成的sql中多了表名 -->
+            <property name="ignoreQualifiersAtRuntime" value="true"/>
+        </table>
+
+        <table catalog="incentive_task_center" tableName="complete_record" domainObjectName="CompleteRecordDO" mapperName="CompleteRecordMapper"
+               enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+            <!-- 防止生成的sql中多了表名 -->
+            <property name="ignoreQualifiersAtRuntime" value="true"/>
+        </table>
     </context>
 </generatorConfiguration>

@@ -5,80 +5,61 @@
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
-    <result column="creator_id" jdbcType="BIGINT" property="creatorId" />
-    <result column="modifier_id" jdbcType="BIGINT" property="modifierId" />
-    <result column="deleted" jdbcType="BIT" property="deleted" />
-    <result column="version" jdbcType="BIGINT" property="version" />
-    <result column="code" jdbcType="VARCHAR" property="code" />
-    <result column="event_id" jdbcType="BIGINT" property="eventId" />
+    <result column="status" jdbcType="SMALLINT" property="status" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="description" jdbcType="VARCHAR" property="description" />
-    <result column="simple_type" jdbcType="BIT" property="simpleType" />
     <result column="type" jdbcType="SMALLINT" property="type" />
+    <result column="sequence_weight" jdbcType="INTEGER" property="sequenceWeight" />
     <result column="complete_type" jdbcType="SMALLINT" property="completeType" />
-    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
-    <result column="status" jdbcType="SMALLINT" property="status" />
-    <result column="category" jdbcType="SMALLINT" property="category" />
-    <result column="valid_period_type" jdbcType="SMALLINT" property="validPeriodType" />
-    <result column="valid_time_start" jdbcType="TIMESTAMP" property="validTimeStart" />
-    <result column="valid_time_end" jdbcType="TIMESTAMP" property="validTimeEnd" />
-    <result column="valid_days" jdbcType="BIGINT" property="validDays" />
-    <result column="rule_type" jdbcType="SMALLINT" property="ruleType" />
-    <result column="period_type" jdbcType="SMALLINT" property="periodType" />
-    <result column="period_unit" jdbcType="SMALLINT" property="periodUnit" />
-    <result column="period_interval" jdbcType="BIGINT" property="periodInterval" />
-    <result column="period_times" jdbcType="BIGINT" property="periodTimes" />
-    <result column="url" jdbcType="VARCHAR" property="url" />
-    <result column="url_target_type" jdbcType="SMALLINT" property="urlTargetType" />
-    <result column="reward_type" jdbcType="INTEGER" property="rewardType" />
-    <result column="reward_number" jdbcType="BIGINT" property="rewardNumber" />
-    <result column="reward_provide_mode" jdbcType="SMALLINT" property="rewardProvideMode" />
-    <result column="goal" jdbcType="BIGINT" property="goal" />
-    <result column="extra_reward_number" jdbcType="BIGINT" property="extraRewardNumber" />
+    <result column="after_complete_type" jdbcType="SMALLINT" property="afterCompleteType" />
+    <result column="complete_engage_way" jdbcType="SMALLINT" property="completeEngageWay" />
+    <result column="events" jdbcType="LONGVARCHAR" property="events" />
+    <result column="complete_rule" jdbcType="LONGVARCHAR" property="completeRule" />
+    <result column="complete_limit_rule" jdbcType="LONGVARCHAR" property="completeLimitRule" />
+    <result column="after_complete_rule" jdbcType="LONGVARCHAR" property="afterCompleteRule" />
+    <result column="complete_engage_rule" jdbcType="LONGVARCHAR" property="completeEngageRule" />
+    <result column="button_config" jdbcType="LONGVARCHAR" property="buttonConfig" />
+    <result column="redirect_link_config" jdbcType="LONGVARCHAR" property="redirectLinkConfig" />
   </resultMap>
+  
   <sql id="Base_Column_List">
-    id, create_time, update_time, creator_id, modifier_id, deleted, version, code, event_id, 
-    name, description, simple_type, type, complete_type, parent_id, status, category, 
-    valid_period_type, valid_time_start, valid_time_end, valid_days, rule_type, period_type, 
-    period_unit, period_interval, period_times, url, url_target_type, reward_type, reward_number, 
-    reward_provide_mode, goal, extra_reward_number
+    id, create_time, update_time, status, name, description, type, sequence_weight, complete_type, 
+    after_complete_type, complete_engage_way, events, complete_rule, complete_limit_rule, 
+    after_complete_rule, complete_engage_rule, button_config, redirect_link_config
   </sql>
+  
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from task
     where id = #{id,jdbcType=BIGINT}
   </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from task
     where id = #{id,jdbcType=BIGINT}
   </delete>
+
   <insert id="insert" parameterType="fun.pullock.incentive.core.dao.model.TaskDO">
-    insert into task (id, create_time, update_time, 
-      creator_id, modifier_id, deleted, 
-      version, code, event_id, 
-      name, description, simple_type, 
-      type, complete_type, parent_id, 
-      status, category, valid_period_type, 
-      valid_time_start, valid_time_end, valid_days, 
-      rule_type, period_type, period_unit, 
-      period_interval, period_times, url, 
-      url_target_type, reward_type, reward_number, 
-      reward_provide_mode, goal, extra_reward_number
-      )
-    values (#{id,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{creatorId,jdbcType=BIGINT}, #{modifierId,jdbcType=BIGINT}, #{deleted,jdbcType=BIT}, 
-      #{version,jdbcType=BIGINT}, #{code,jdbcType=VARCHAR}, #{eventId,jdbcType=BIGINT}, 
-      #{name,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{simpleType,jdbcType=BIT}, 
-      #{type,jdbcType=SMALLINT}, #{completeType,jdbcType=SMALLINT}, #{parentId,jdbcType=BIGINT}, 
-      #{status,jdbcType=SMALLINT}, #{category,jdbcType=SMALLINT}, #{validPeriodType,jdbcType=SMALLINT}, 
-      #{validTimeStart,jdbcType=TIMESTAMP}, #{validTimeEnd,jdbcType=TIMESTAMP}, #{validDays,jdbcType=BIGINT}, 
-      #{ruleType,jdbcType=SMALLINT}, #{periodType,jdbcType=SMALLINT}, #{periodUnit,jdbcType=SMALLINT}, 
-      #{periodInterval,jdbcType=BIGINT}, #{periodTimes,jdbcType=BIGINT}, #{url,jdbcType=VARCHAR}, 
-      #{urlTargetType,jdbcType=SMALLINT}, #{rewardType,jdbcType=INTEGER}, #{rewardNumber,jdbcType=BIGINT}, 
-      #{rewardProvideMode,jdbcType=SMALLINT}, #{goal,jdbcType=BIGINT}, #{extraRewardNumber,jdbcType=BIGINT}
-      )
+    insert into task (
+      id, create_time, update_time,
+      status, name, description, 
+      type, sequence_weight, complete_type, 
+      after_complete_type, complete_engage_way, 
+      events, complete_rule, complete_limit_rule, 
+      after_complete_rule, complete_engage_rule, 
+      button_config, redirect_link_config
+    ) values (
+      #{id,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP},
+      #{status,jdbcType=SMALLINT}, #{name,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
+      #{type,jdbcType=SMALLINT}, #{sequenceWeight,jdbcType=INTEGER}, #{completeType,jdbcType=SMALLINT}, 
+      #{afterCompleteType,jdbcType=SMALLINT}, #{completeEngageWay,jdbcType=SMALLINT}, 
+      #{events,jdbcType=LONGVARCHAR}, #{completeRule,jdbcType=LONGVARCHAR}, #{completeLimitRule,jdbcType=LONGVARCHAR}, 
+      #{afterCompleteRule,jdbcType=LONGVARCHAR}, #{completeEngageRule,jdbcType=LONGVARCHAR}, 
+      #{buttonConfig,jdbcType=LONGVARCHAR}, #{redirectLinkConfig,jdbcType=LONGVARCHAR}
+    )
   </insert>
+
   <insert id="insertSelective" parameterType="fun.pullock.incentive.core.dao.model.TaskDO">
     insert into task
     <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -91,23 +72,8 @@
       <if test="updateTime != null">
         update_time,
       </if>
-      <if test="creatorId != null">
-        creator_id,
-      </if>
-      <if test="modifierId != null">
-        modifier_id,
-      </if>
-      <if test="deleted != null">
-        deleted,
-      </if>
-      <if test="version != null">
-        version,
-      </if>
-      <if test="code != null">
-        code,
-      </if>
-      <if test="eventId != null">
-        event_id,
+      <if test="status != null">
+        status,
       </if>
       <if test="name != null">
         name,
@@ -115,71 +81,41 @@
       <if test="description != null">
         description,
       </if>
-      <if test="simpleType != null">
-        simple_type,
-      </if>
       <if test="type != null">
         type,
+      </if>
+      <if test="sequenceWeight != null">
+        sequence_weight,
       </if>
       <if test="completeType != null">
         complete_type,
       </if>
-      <if test="parentId != null">
-        parent_id,
+      <if test="afterCompleteType != null">
+        after_complete_type,
       </if>
-      <if test="status != null">
-        status,
+      <if test="completeEngageWay != null">
+        complete_engage_way,
       </if>
-      <if test="category != null">
-        category,
+      <if test="events != null">
+        events,
       </if>
-      <if test="validPeriodType != null">
-        valid_period_type,
+      <if test="completeRule != null">
+        complete_rule,
       </if>
-      <if test="validTimeStart != null">
-        valid_time_start,
+      <if test="completeLimitRule != null">
+        complete_limit_rule,
       </if>
-      <if test="validTimeEnd != null">
-        valid_time_end,
+      <if test="afterCompleteRule != null">
+        after_complete_rule,
       </if>
-      <if test="validDays != null">
-        valid_days,
+      <if test="completeEngageRule != null">
+        complete_engage_rule,
       </if>
-      <if test="ruleType != null">
-        rule_type,
+      <if test="buttonConfig != null">
+        button_config,
       </if>
-      <if test="periodType != null">
-        period_type,
-      </if>
-      <if test="periodUnit != null">
-        period_unit,
-      </if>
-      <if test="periodInterval != null">
-        period_interval,
-      </if>
-      <if test="periodTimes != null">
-        period_times,
-      </if>
-      <if test="url != null">
-        url,
-      </if>
-      <if test="urlTargetType != null">
-        url_target_type,
-      </if>
-      <if test="rewardType != null">
-        reward_type,
-      </if>
-      <if test="rewardNumber != null">
-        reward_number,
-      </if>
-      <if test="rewardProvideMode != null">
-        reward_provide_mode,
-      </if>
-      <if test="goal != null">
-        goal,
-      </if>
-      <if test="extraRewardNumber != null">
-        extra_reward_number,
+      <if test="redirectLinkConfig != null">
+        redirect_link_config,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -192,23 +128,8 @@
       <if test="updateTime != null">
         #{updateTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="creatorId != null">
-        #{creatorId,jdbcType=BIGINT},
-      </if>
-      <if test="modifierId != null">
-        #{modifierId,jdbcType=BIGINT},
-      </if>
-      <if test="deleted != null">
-        #{deleted,jdbcType=BIT},
-      </if>
-      <if test="version != null">
-        #{version,jdbcType=BIGINT},
-      </if>
-      <if test="code != null">
-        #{code,jdbcType=VARCHAR},
-      </if>
-      <if test="eventId != null">
-        #{eventId,jdbcType=BIGINT},
+      <if test="status != null">
+        #{status,jdbcType=SMALLINT},
       </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
@@ -216,74 +137,45 @@
       <if test="description != null">
         #{description,jdbcType=VARCHAR},
       </if>
-      <if test="simpleType != null">
-        #{simpleType,jdbcType=BIT},
-      </if>
       <if test="type != null">
         #{type,jdbcType=SMALLINT},
+      </if>
+      <if test="sequenceWeight != null">
+        #{sequenceWeight,jdbcType=INTEGER},
       </if>
       <if test="completeType != null">
         #{completeType,jdbcType=SMALLINT},
       </if>
-      <if test="parentId != null">
-        #{parentId,jdbcType=BIGINT},
+      <if test="afterCompleteType != null">
+        #{afterCompleteType,jdbcType=SMALLINT},
       </if>
-      <if test="status != null">
-        #{status,jdbcType=SMALLINT},
+      <if test="completeEngageWay != null">
+        #{completeEngageWay,jdbcType=SMALLINT},
       </if>
-      <if test="category != null">
-        #{category,jdbcType=SMALLINT},
+      <if test="events != null">
+        #{events,jdbcType=LONGVARCHAR},
       </if>
-      <if test="validPeriodType != null">
-        #{validPeriodType,jdbcType=SMALLINT},
+      <if test="completeRule != null">
+        #{completeRule,jdbcType=LONGVARCHAR},
       </if>
-      <if test="validTimeStart != null">
-        #{validTimeStart,jdbcType=TIMESTAMP},
+      <if test="completeLimitRule != null">
+        #{completeLimitRule,jdbcType=LONGVARCHAR},
       </if>
-      <if test="validTimeEnd != null">
-        #{validTimeEnd,jdbcType=TIMESTAMP},
+      <if test="afterCompleteRule != null">
+        #{afterCompleteRule,jdbcType=LONGVARCHAR},
       </if>
-      <if test="validDays != null">
-        #{validDays,jdbcType=BIGINT},
+      <if test="completeEngageRule != null">
+        #{completeEngageRule,jdbcType=LONGVARCHAR},
       </if>
-      <if test="ruleType != null">
-        #{ruleType,jdbcType=SMALLINT},
+      <if test="buttonConfig != null">
+        #{buttonConfig,jdbcType=LONGVARCHAR},
       </if>
-      <if test="periodType != null">
-        #{periodType,jdbcType=SMALLINT},
-      </if>
-      <if test="periodUnit != null">
-        #{periodUnit,jdbcType=SMALLINT},
-      </if>
-      <if test="periodInterval != null">
-        #{periodInterval,jdbcType=BIGINT},
-      </if>
-      <if test="periodTimes != null">
-        #{periodTimes,jdbcType=BIGINT},
-      </if>
-      <if test="url != null">
-        #{url,jdbcType=VARCHAR},
-      </if>
-      <if test="urlTargetType != null">
-        #{urlTargetType,jdbcType=SMALLINT},
-      </if>
-      <if test="rewardType != null">
-        #{rewardType,jdbcType=INTEGER},
-      </if>
-      <if test="rewardNumber != null">
-        #{rewardNumber,jdbcType=BIGINT},
-      </if>
-      <if test="rewardProvideMode != null">
-        #{rewardProvideMode,jdbcType=SMALLINT},
-      </if>
-      <if test="goal != null">
-        #{goal,jdbcType=BIGINT},
-      </if>
-      <if test="extraRewardNumber != null">
-        #{extraRewardNumber,jdbcType=BIGINT},
+      <if test="redirectLinkConfig != null">
+        #{redirectLinkConfig,jdbcType=LONGVARCHAR},
       </if>
     </trim>
   </insert>
+
   <update id="updateByPrimaryKeySelective" parameterType="fun.pullock.incentive.core.dao.model.TaskDO">
     update task
     <set>
@@ -293,23 +185,8 @@
       <if test="updateTime != null">
         update_time = #{updateTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="creatorId != null">
-        creator_id = #{creatorId,jdbcType=BIGINT},
-      </if>
-      <if test="modifierId != null">
-        modifier_id = #{modifierId,jdbcType=BIGINT},
-      </if>
-      <if test="deleted != null">
-        deleted = #{deleted,jdbcType=BIT},
-      </if>
-      <if test="version != null">
-        version = #{version,jdbcType=BIGINT},
-      </if>
-      <if test="code != null">
-        code = #{code,jdbcType=VARCHAR},
-      </if>
-      <if test="eventId != null">
-        event_id = #{eventId,jdbcType=BIGINT},
+      <if test="status != null">
+        status = #{status,jdbcType=SMALLINT},
       </if>
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
@@ -317,116 +194,65 @@
       <if test="description != null">
         description = #{description,jdbcType=VARCHAR},
       </if>
-      <if test="simpleType != null">
-        simple_type = #{simpleType,jdbcType=BIT},
-      </if>
       <if test="type != null">
         type = #{type,jdbcType=SMALLINT},
+      </if>
+      <if test="sequenceWeight != null">
+        sequence_weight = #{sequenceWeight,jdbcType=INTEGER},
       </if>
       <if test="completeType != null">
         complete_type = #{completeType,jdbcType=SMALLINT},
       </if>
-      <if test="parentId != null">
-        parent_id = #{parentId,jdbcType=BIGINT},
+      <if test="afterCompleteType != null">
+        after_complete_type = #{afterCompleteType,jdbcType=SMALLINT},
       </if>
-      <if test="status != null">
-        status = #{status,jdbcType=SMALLINT},
+      <if test="completeEngageWay != null">
+        complete_engage_way = #{completeEngageWay,jdbcType=SMALLINT},
       </if>
-      <if test="category != null">
-        category = #{category,jdbcType=SMALLINT},
+      <if test="events != null">
+        events = #{events,jdbcType=LONGVARCHAR},
       </if>
-      <if test="validPeriodType != null">
-        valid_period_type = #{validPeriodType,jdbcType=SMALLINT},
+      <if test="completeRule != null">
+        complete_rule = #{completeRule,jdbcType=LONGVARCHAR},
       </if>
-      <if test="validTimeStart != null">
-        valid_time_start = #{validTimeStart,jdbcType=TIMESTAMP},
+      <if test="completeLimitRule != null">
+        complete_limit_rule = #{completeLimitRule,jdbcType=LONGVARCHAR},
       </if>
-      <if test="validTimeEnd != null">
-        valid_time_end = #{validTimeEnd,jdbcType=TIMESTAMP},
+      <if test="afterCompleteRule != null">
+        after_complete_rule = #{afterCompleteRule,jdbcType=LONGVARCHAR},
       </if>
-      <if test="validDays != null">
-        valid_days = #{validDays,jdbcType=BIGINT},
+      <if test="completeEngageRule != null">
+        complete_engage_rule = #{completeEngageRule,jdbcType=LONGVARCHAR},
       </if>
-      <if test="ruleType != null">
-        rule_type = #{ruleType,jdbcType=SMALLINT},
+      <if test="buttonConfig != null">
+        button_config = #{buttonConfig,jdbcType=LONGVARCHAR},
       </if>
-      <if test="periodType != null">
-        period_type = #{periodType,jdbcType=SMALLINT},
-      </if>
-      <if test="periodUnit != null">
-        period_unit = #{periodUnit,jdbcType=SMALLINT},
-      </if>
-      <if test="periodInterval != null">
-        period_interval = #{periodInterval,jdbcType=BIGINT},
-      </if>
-      <if test="periodTimes != null">
-        period_times = #{periodTimes,jdbcType=BIGINT},
-      </if>
-      <if test="url != null">
-        url = #{url,jdbcType=VARCHAR},
-      </if>
-      <if test="urlTargetType != null">
-        url_target_type = #{urlTargetType,jdbcType=SMALLINT},
-      </if>
-      <if test="rewardType != null">
-        reward_type = #{rewardType,jdbcType=INTEGER},
-      </if>
-      <if test="rewardNumber != null">
-        reward_number = #{rewardNumber,jdbcType=BIGINT},
-      </if>
-      <if test="rewardProvideMode != null">
-        reward_provide_mode = #{rewardProvideMode,jdbcType=SMALLINT},
-      </if>
-      <if test="goal != null">
-        goal = #{goal,jdbcType=BIGINT},
-      </if>
-      <if test="extraRewardNumber != null">
-        extra_reward_number = #{extraRewardNumber,jdbcType=BIGINT},
+      <if test="redirectLinkConfig != null">
+        redirect_link_config = #{redirectLinkConfig,jdbcType=LONGVARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
+
   <update id="updateByPrimaryKey" parameterType="fun.pullock.incentive.core.dao.model.TaskDO">
     update task
     set create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
-      creator_id = #{creatorId,jdbcType=BIGINT},
-      modifier_id = #{modifierId,jdbcType=BIGINT},
-      deleted = #{deleted,jdbcType=BIT},
-      version = #{version,jdbcType=BIGINT},
-      code = #{code,jdbcType=VARCHAR},
-      event_id = #{eventId,jdbcType=BIGINT},
+      status = #{status,jdbcType=SMALLINT},
       name = #{name,jdbcType=VARCHAR},
       description = #{description,jdbcType=VARCHAR},
-      simple_type = #{simpleType,jdbcType=BIT},
       type = #{type,jdbcType=SMALLINT},
+      sequence_weight = #{sequenceWeight,jdbcType=INTEGER},
       complete_type = #{completeType,jdbcType=SMALLINT},
-      parent_id = #{parentId,jdbcType=BIGINT},
-      status = #{status,jdbcType=SMALLINT},
-      category = #{category,jdbcType=SMALLINT},
-      valid_period_type = #{validPeriodType,jdbcType=SMALLINT},
-      valid_time_start = #{validTimeStart,jdbcType=TIMESTAMP},
-      valid_time_end = #{validTimeEnd,jdbcType=TIMESTAMP},
-      valid_days = #{validDays,jdbcType=BIGINT},
-      rule_type = #{ruleType,jdbcType=SMALLINT},
-      period_type = #{periodType,jdbcType=SMALLINT},
-      period_unit = #{periodUnit,jdbcType=SMALLINT},
-      period_interval = #{periodInterval,jdbcType=BIGINT},
-      period_times = #{periodTimes,jdbcType=BIGINT},
-      url = #{url,jdbcType=VARCHAR},
-      url_target_type = #{urlTargetType,jdbcType=SMALLINT},
-      reward_type = #{rewardType,jdbcType=INTEGER},
-      reward_number = #{rewardNumber,jdbcType=BIGINT},
-      reward_provide_mode = #{rewardProvideMode,jdbcType=SMALLINT},
-      goal = #{goal,jdbcType=BIGINT},
-      extra_reward_number = #{extraRewardNumber,jdbcType=BIGINT}
+      after_complete_type = #{afterCompleteType,jdbcType=SMALLINT},
+      complete_engage_way = #{completeEngageWay,jdbcType=SMALLINT},
+      events = #{events,jdbcType=LONGVARCHAR},
+      complete_rule = #{completeRule,jdbcType=LONGVARCHAR},
+      complete_limit_rule = #{completeLimitRule,jdbcType=LONGVARCHAR},
+      after_complete_rule = #{afterCompleteRule,jdbcType=LONGVARCHAR},
+      complete_engage_rule = #{completeEngageRule,jdbcType=LONGVARCHAR},
+      button_config = #{buttonConfig,jdbcType=LONGVARCHAR},
+      redirect_link_config = #{redirectLinkConfig,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
-
-  <select id="selectByEventId" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from task
-    where event_id = #{eventId,jdbcType=BIGINT}
-  </select>
 </mapper>

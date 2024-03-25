@@ -15,6 +15,4 @@ public interface EventMapper {
     int updateByPrimaryKeySelective(EventDO row);
 
     int updateByPrimaryKey(EventDO row);
-
-    EventDO selectByCode(String code);
 }

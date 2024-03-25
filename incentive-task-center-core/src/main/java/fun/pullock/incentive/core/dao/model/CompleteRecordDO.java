@@ -5,7 +5,7 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-public class UserTaskDO {
+public class CompleteRecordDO {
 
     private Long id;
 
@@ -13,7 +13,17 @@ public class UserTaskDO {
 
     private LocalDateTime updateTime;
 
+    private Long userId;
+
     private Long taskId;
 
     private Integer status;
+
+    private String source;
+
+    private String uniqueSourceId;
+
+    private Integer afterCompleteType;
+
+    private String afterCompleteRule;
 }
