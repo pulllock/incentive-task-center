@@ -1,4 +1,4 @@
-package fun.pullock.incentive.core.mq.consumer;
+package fun.pullock.incentive.core.collector.mq.consumer;
 
 /**
  * 用户登录消息
