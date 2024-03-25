@@ -1,4 +1,4 @@
-CREATE TABLE activity_event_group (
+CREATE TABLE event_group (
   id          bigint(20) unsigned AUTO_INCREMENT NOT NULL COMMENT '自增主键ID',
   create_time datetime                           NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   update_time datetime                           NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
@@ -17,7 +17,7 @@ CREATE TABLE activity_event_group (
   KEY idx_order (`order`)
 ) ENGINE = INNODB DEFAULT CHARSET = utf8mb4 COMMENT = '活动事件分组';
 
-CREATE TABLE activity_event (
+CREATE TABLE event (
   id             bigint(20) unsigned AUTO_INCREMENT NOT NULL COMMENT '自增主键ID',
   create_time    datetime                           NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   update_time    datetime                           NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
@@ -41,7 +41,7 @@ CREATE TABLE activity_event (
 ) ENGINE = INNODB DEFAULT CHARSET = utf8mb4 COMMENT = '活动事件';
 
 
-CREATE TABLE activity_task (
+CREATE TABLE task (
   id                  bigint(20) unsigned AUTO_INCREMENT NOT NULL COMMENT '自增主键ID',
   create_time         datetime                           NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   update_time         datetime                           NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
@@ -84,7 +84,7 @@ CREATE TABLE activity_task (
   KEY idx_parent_id (parent_id)
 ) ENGINE = INNODB DEFAULT CHARSET = utf8mb4 COMMENT = '活动任务';
 
-CREATE TABLE activity_user_task (
+CREATE TABLE user_task (
   id               bigint(20) unsigned AUTO_INCREMENT NOT NULL COMMENT '自增主键ID',
   create_time      datetime                           NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   update_time      datetime                           NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
@@ -103,7 +103,7 @@ CREATE TABLE activity_user_task (
   KEY idx_task_id (task_id)
 ) ENGINE = INNODB DEFAULT CHARSET = utf8mb4 COMMENT = '用户任务';
 
-CREATE TABLE activity_task_execution_log (
+CREATE TABLE task_execution_log (
   id          bigint(20) unsigned AUTO_INCREMENT NOT NULL COMMENT '自增主键ID',
   create_time datetime                           NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   update_time datetime                           NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
@@ -122,7 +122,7 @@ CREATE TABLE activity_task_execution_log (
   KEY idx_task_id (task_id)
 ) ENGINE = INNODB DEFAULT CHARSET = utf8mb4 COMMENT = '活动任务执行日志';
 
-CREATE TABLE activity_task_reward_log (
+CREATE TABLE task_reward_log (
   id          bigint(20) unsigned AUTO_INCREMENT NOT NULL COMMENT '自增主键ID',
   create_time datetime                           NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   update_time datetime                           NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',

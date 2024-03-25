@@ -5,12 +5,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>fun.pullock</groupId>
-    <artifactId>activity-task-center</artifactId>
+    <artifactId>incentive-task-center</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <modules>
-        <module>activity-task-center-api</module>
-        <module>activity-task-center-core</module>
+        <module>incentive-task-center-api</module>
+        <module>incentive-task-center-core</module>
     </modules>
 
     <properties>
@@ -50,7 +50,7 @@
 
             <dependency>
                 <groupId>fun.pullock</groupId>
-                <artifactId>activity-task-center-api</artifactId>
+                <artifactId>incentive-task-center-api</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>

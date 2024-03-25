@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: incentive-task-center
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/incentive_task_center?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: 12345678
+server:
+  port: 8080
+
+# mybatis
+mybatis:
+  config-location: classpath:mybatis/mybatis-config.xml
+  mapper-locations: classpath:mybatis/mapper/*.xml
+  type-aliases-package: fun.pullock.incentive.core.dao.model

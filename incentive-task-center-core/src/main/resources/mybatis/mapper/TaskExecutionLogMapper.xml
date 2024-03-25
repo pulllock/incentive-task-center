@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="fun.pullock.incentive.core.dao.mapper.TaskExecutionLogMapper">
+  <resultMap id="BaseResultMap" type="fun.pullock.incentive.core.dao.model.TaskExecutionLogDO">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="creator_id" jdbcType="BIGINT" property="creatorId" />
+    <result column="modifier_id" jdbcType="BIGINT" property="modifierId" />
+    <result column="deleted" jdbcType="BIT" property="deleted" />
+    <result column="version" jdbcType="BIGINT" property="version" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="task_id" jdbcType="BIGINT" property="taskId" />
+    <result column="need_reward" jdbcType="BIT" property="needReward" />
+    <result column="source" jdbcType="VARCHAR" property="source" />
+    <result column="source_id" jdbcType="VARCHAR" property="sourceId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, create_time, update_time, creator_id, modifier_id, deleted, version, user_id, 
+    task_id, need_reward, source, source_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from task_execution_log
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from task_execution_log
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="fun.pullock.incentive.core.dao.model.TaskExecutionLogDO">
+    insert into task_execution_log (id, create_time, update_time, 
+      creator_id, modifier_id, deleted, 
+      version, user_id, task_id, 
+      need_reward, source, source_id
+      )
+    values (#{id,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{creatorId,jdbcType=BIGINT}, #{modifierId,jdbcType=BIGINT}, #{deleted,jdbcType=BIT}, 
+      #{version,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{taskId,jdbcType=BIGINT}, 
+      #{needReward,jdbcType=BIT}, #{source,jdbcType=VARCHAR}, #{sourceId,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="fun.pullock.incentive.core.dao.model.TaskExecutionLogDO">
+    insert into task_execution_log
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="creatorId != null">
+        creator_id,
+      </if>
+      <if test="modifierId != null">
+        modifier_id,
+      </if>
+      <if test="deleted != null">
+        deleted,
+      </if>
+      <if test="version != null">
+        version,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="taskId != null">
+        task_id,
+      </if>
+      <if test="needReward != null">
+        need_reward,
+      </if>
+      <if test="source != null">
+        source,
+      </if>
+      <if test="sourceId != null">
+        source_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creatorId != null">
+        #{creatorId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierId != null">
+        #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="deleted != null">
+        #{deleted,jdbcType=BIT},
+      </if>
+      <if test="version != null">
+        #{version,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="taskId != null">
+        #{taskId,jdbcType=BIGINT},
+      </if>
+      <if test="needReward != null">
+        #{needReward,jdbcType=BIT},
+      </if>
+      <if test="source != null">
+        #{source,jdbcType=VARCHAR},
+      </if>
+      <if test="sourceId != null">
+        #{sourceId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="fun.pullock.incentive.core.dao.model.TaskExecutionLogDO">
+    update task_execution_log
+    <set>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creatorId != null">
+        creator_id = #{creatorId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierId != null">
+        modifier_id = #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="deleted != null">
+        deleted = #{deleted,jdbcType=BIT},
+      </if>
+      <if test="version != null">
+        version = #{version,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="taskId != null">
+        task_id = #{taskId,jdbcType=BIGINT},
+      </if>
+      <if test="needReward != null">
+        need_reward = #{needReward,jdbcType=BIT},
+      </if>
+      <if test="source != null">
+        source = #{source,jdbcType=VARCHAR},
+      </if>
+      <if test="sourceId != null">
+        source_id = #{sourceId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="fun.pullock.incentive.core.dao.model.TaskExecutionLogDO">
+    update task_execution_log
+    set create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      creator_id = #{creatorId,jdbcType=BIGINT},
+      modifier_id = #{modifierId,jdbcType=BIGINT},
+      deleted = #{deleted,jdbcType=BIT},
+      version = #{version,jdbcType=BIGINT},
+      user_id = #{userId,jdbcType=BIGINT},
+      task_id = #{taskId,jdbcType=BIGINT},
+      need_reward = #{needReward,jdbcType=BIT},
+      source = #{source,jdbcType=VARCHAR},
+      source_id = #{sourceId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
