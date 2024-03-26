@@ -1,6 +1,7 @@
 package fun.pullock.incentive.core.dao.mapper;
 
 import fun.pullock.incentive.core.dao.model.TriggerLogDO;
+import org.apache.ibatis.annotations.Param;
 
 public interface TriggerLogMapper {
 
@@ -14,7 +15,11 @@ public interface TriggerLogMapper {
 
     int updateByPrimaryKeySelective(TriggerLogDO row);
 
-    int updateByPrimaryKeyWithBLOBs(TriggerLogDO row);
-
     int updateByPrimaryKey(TriggerLogDO row);
+
+    TriggerLogDO selectByUniqueKey(
+            @Param("userId") Long userId,
+            @Param("source") String source,
+            @Param("uniqueSourceId") String uniqueSourceId
+    );
 }

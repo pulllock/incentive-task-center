@@ -14,7 +14,5 @@ public interface TaskMapper {
 
     int updateByPrimaryKeySelective(TaskDO row);
 
-    int updateByPrimaryKeyWithBLOBs(TaskDO row);
-
     int updateByPrimaryKey(TaskDO row);
 }

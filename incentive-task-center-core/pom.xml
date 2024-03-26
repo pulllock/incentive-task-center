@@ -18,6 +18,11 @@
         </dependency>
 
         <dependency>
+            <groupId>fun.pullock</groupId>
+            <artifactId>general-model-starter</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>

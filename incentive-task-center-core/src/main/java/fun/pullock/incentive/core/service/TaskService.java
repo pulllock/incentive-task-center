@@ -1,9 +1,11 @@
 package fun.pullock.incentive.core.service;
 
 import com.googlecode.aviator.AviatorEvaluator;
+import fun.pullock.general.model.ServiceException;
 import fun.pullock.incentive.api.model.TriggerParam;
 import fun.pullock.incentive.core.enums.AfterCompleteType;
 import fun.pullock.incentive.core.enums.CompleteLimitType;
+import fun.pullock.incentive.core.enums.ErrorCode;
 import fun.pullock.incentive.core.manager.TaskManager;
 import fun.pullock.incentive.core.model.dto.*;
 import fun.pullock.incentive.core.strategy.task.complete.after.AfterCompleteHandler;
@@ -45,8 +47,32 @@ public class TaskService {
         // 校验参数
         validateTriggerParam(param);
 
-        // 校验触发日志
-        validateTriggerLog(param);
+        // 查询任务触发日志
+        TriggerLogDTO triggerLog = triggerLogService.queryByUniqueKey(
+                param.getUserId(),
+                param.getSource(),
+                param.getUniqueSourceId()
+        );
+        if (triggerLog != null) {
+            if (triggerLog.getStatus() == 3) {
+                // TODO 成功
+                return;
+            } else if (triggerLog.getStatus() == 1) {
+                // TODO 处理中，幂等，抛异常
+                return;
+            } else if (triggerLog.getStatus() == 2) {
+                // TODO 失败，重试
+            }
+            return;
+        }
+
+        // 插入触发日志
+        triggerLog = new TriggerLogDTO();
+        boolean r = triggerLogService.create(triggerLog);
+        if (!r) {
+            // TODO 抛异常
+            return;
+        }
 
         // 查询事件
         EventDTO event = eventService.queryByCode(param.getEventCode());
@@ -135,48 +161,21 @@ public class TaskService {
         return (Boolean) AviatorEvaluator.getInstance().compile(expression).execute(ruleData);
     }
 
-    private TriggerLogDTO validateTriggerLog(TriggerParam param) {
-        // 查询任务触发日志
-        TriggerLogDTO triggerLog = triggerLogService.queryByUniqueKey(
-                param.getUserId(),
-                param.getSource(),
-                param.getUniqueSourceId()
-        );
-        if (triggerLog != null) {
-            // TODO 抛异常
-            return null;
-        }
-
-        // 插入触发日志
-        triggerLog = new TriggerLogDTO();
-        boolean r = triggerLogService.create(triggerLog);
-        if (!r) {
-            // TODO 抛异常
-            return null;
-        }
-
-        return triggerLog;
-    }
-
     private void validateTriggerParam(TriggerParam param) {
         if (param == null) {
-            // TODO 抛异常
-            return;
+            throw new ServiceException(ErrorCode.PARAM_ERROR);
         }
 
         if (param.getUserId() == null) {
-            // TODO 抛异常
-            return;
+            throw new ServiceException(ErrorCode.PARAM_ERROR, "userId不能为空");
         }
 
         if (StringUtils.isEmpty(param.getEventCode())) {
-            // TODO 抛异常
-            return;
+            throw new ServiceException(ErrorCode.PARAM_ERROR, "eventCode不能为空");
         }
 
         if (StringUtils.isAnyEmpty(param.getSource(), param.getUniqueSourceId())) {
-            // TODO 抛异常
-            return;
+            throw new ServiceException(ErrorCode.PARAM_ERROR, "source或uniqueSourceId不能为空");
         }
     }
 }

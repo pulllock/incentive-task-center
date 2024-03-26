@@ -146,4 +146,13 @@
       process_result = #{processResult,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+  <select id="selectByUniqueKey" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from trigger_log
+    where user_id = #{userId,jdbcType=BIGINT}
+      and source = #{source,jdbcType=VARCHAR}
+      and unique_source_id = #{uniqueSourceId,jdbcType=VARCHAR}
+  </select>
 </mapper>

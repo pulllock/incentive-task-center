@@ -14,7 +14,5 @@ public interface CompleteRecordMapper {
 
     int updateByPrimaryKeySelective(CompleteRecordDO row);
 
-    int updateByPrimaryKeyWithBLOBs(CompleteRecordDO row);
-
     int updateByPrimaryKey(CompleteRecordDO row);
 }
