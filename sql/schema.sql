@@ -1,3 +1,25 @@
+CREATE TABLE expression_condition (
+  id                   bigint(20) unsigned AUTO_INCREMENT NOT NULL COMMENT '自增主键ID',
+  create_time          datetime                           NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  update_time          datetime                           NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
+  code                 varchar(32)                        NOT NULL COMMENT '唯一编号',
+  name                 varchar(100)                       NOT NULL COMMENT '名称',
+  description          varchar(255)                                DEFAULT NULL COMMENT '描述',
+  PRIMARY KEY (id),
+  UNIQUE KEY uniq_code (code)
+) ENGINE = INNODB DEFAULT CHARSET = utf8mb4 COMMENT = '表达式条件';
+
+CREATE TABLE expression_operator (
+  id                   bigint(20) unsigned AUTO_INCREMENT NOT NULL COMMENT '自增主键ID',
+  create_time          datetime                           NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  update_time          datetime                           NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
+  code                 varchar(32)                        NOT NULL COMMENT '唯一编号',
+  name                 varchar(100)                       NOT NULL COMMENT '名称',
+  description          varchar(255)                                DEFAULT NULL COMMENT '描述',
+  PRIMARY KEY (id),
+  UNIQUE KEY uniq_code (code)
+) ENGINE = INNODB DEFAULT CHARSET = utf8mb4 COMMENT = '表达式运算符';
+
 CREATE TABLE event (
   id                   bigint(20) unsigned AUTO_INCREMENT NOT NULL COMMENT '自增主键ID',
   create_time          datetime                           NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
@@ -47,7 +69,7 @@ CREATE TABLE trigger_log (
   create_time          datetime                           NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   update_time          datetime                           NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
   user_id              bigint(20)                         NOT NULL COMMENT '用户ID',
-  task_id              bigint(20)                         NOT NULL COMMENT '任务ID',
+  event_code           varchar(32)                        NOT NULL COMMENT '事件编码',
   status               smallint(6)                        NOT NULL DEFAULT 1 COMMENT '状态，取值：1-处理中 2-失败 3-成功',
   process_result       text                                        DEFAULT NULL COMMENT '处理结果（JSON格式）',
   source               varchar(20)                        NOT NULL COMMENT '业务来源',
@@ -55,7 +77,7 @@ CREATE TABLE trigger_log (
   PRIMARY KEY (id),
   KEY idx_user_id (user_id),
   KEY idx_task_id (task_id),
-  UNIQUE KEY uniq_user_task_source_id (user_id, task_id, unique_source_id)
+  UNIQUE KEY uniq_user_source_id (user_id, source, unique_source_id)
 ) ENGINE = INNODB DEFAULT CHARSET = utf8mb4 COMMENT = '任务触发日志';
 
 CREATE TABLE complete_record (
@@ -72,5 +94,5 @@ CREATE TABLE complete_record (
   PRIMARY KEY (id),
   KEY idx_user_id (user_id),
   KEY idx_task_id (task_id),
-  UNIQUE KEY uniq_user_task_source_id (user_id, task_id, unique_source_id)
+  UNIQUE KEY uniq_user_task_source_id (user_id, task_id, source, unique_source_id)
 ) ENGINE = INNODB DEFAULT CHARSET = utf8mb4 COMMENT = '任务完成记录';
