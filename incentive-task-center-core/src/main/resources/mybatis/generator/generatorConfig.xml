@@ -41,7 +41,17 @@
         </javaClientGenerator>
 
         <!-- 生成对应表及类名 -->
+        <table catalog="incentive_task_center" tableName="expression_condition" domainObjectName="ExpressionConditionDO" mapperName="ExpressionConditionMapper"
+               enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+            <!-- 防止生成的sql中多了表名 -->
+            <property name="ignoreQualifiersAtRuntime" value="true"/>
+        </table>
 
+        <table catalog="incentive_task_center" tableName="expression_operator" domainObjectName="ExpressionOperatorDO" mapperName="ExpressionOperatorMapper"
+               enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+            <!-- 防止生成的sql中多了表名 -->
+            <property name="ignoreQualifiersAtRuntime" value="true"/>
+        </table>
 
         <table catalog="incentive_task_center" tableName="event" domainObjectName="EventDO" mapperName="EventMapper"
                enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
