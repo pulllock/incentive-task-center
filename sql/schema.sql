@@ -2,7 +2,7 @@ CREATE TABLE expression_condition (
   id                   bigint(20) unsigned AUTO_INCREMENT NOT NULL COMMENT '自增主键ID',
   create_time          datetime                           NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   update_time          datetime                           NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
-  code                 varchar(40)                        NOT NULL COMMENT '唯一编号',
+  code                 varchar(32)                        NOT NULL COMMENT '唯一编号',
   name                 varchar(100)                       NOT NULL COMMENT '名称',
   description          varchar(255)                                DEFAULT NULL COMMENT '描述',
   PRIMARY KEY (id),

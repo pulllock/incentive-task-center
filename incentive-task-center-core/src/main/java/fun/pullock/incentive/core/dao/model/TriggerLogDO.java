@@ -15,7 +15,7 @@ public class TriggerLogDO {
 
     private Long userId;
 
-    private Long taskId;
+    private String eventCode;
 
     private Integer status;
 

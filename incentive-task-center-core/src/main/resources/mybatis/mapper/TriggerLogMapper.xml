@@ -6,7 +6,7 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="user_id" jdbcType="BIGINT" property="userId" />
-    <result column="task_id" jdbcType="BIGINT" property="taskId" />
+    <result column="event_code" jdbcType="VARCHAR" property="eventCode" />
     <result column="status" jdbcType="SMALLINT" property="status" />
     <result column="source" jdbcType="VARCHAR" property="source" />
     <result column="unique_source_id" jdbcType="VARCHAR" property="uniqueSourceId" />
@@ -14,7 +14,7 @@
   </resultMap>
 
   <sql id="Base_Column_List">
-    id, create_time, update_time, user_id, task_id, status, source, unique_source_id, process_result
+    id, create_time, update_time, user_id, event_code, status, source, unique_source_id, process_result
   </sql>
 
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
@@ -32,11 +32,11 @@
   <insert id="insert" parameterType="fun.pullock.incentive.core.dao.model.TriggerLogDO">
     insert into trigger_log (
       id, create_time, update_time,
-      user_id, task_id, status, 
+      user_id, event_code, status, 
       source, unique_source_id, process_result
     ) values (
       #{id,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP},
-      #{userId,jdbcType=BIGINT}, #{taskId,jdbcType=BIGINT}, #{status,jdbcType=SMALLINT}, 
+      #{userId,jdbcType=BIGINT}, #{eventCode,jdbcType=VARCHAR}, #{status,jdbcType=SMALLINT}, 
       #{source,jdbcType=VARCHAR}, #{uniqueSourceId,jdbcType=VARCHAR}, #{processResult,jdbcType=LONGVARCHAR}
     )
   </insert>
@@ -56,8 +56,8 @@
       <if test="userId != null">
         user_id,
       </if>
-      <if test="taskId != null">
-        task_id,
+      <if test="eventCode != null">
+        event_code,
       </if>
       <if test="status != null">
         status,
@@ -85,8 +85,8 @@
       <if test="userId != null">
         #{userId,jdbcType=BIGINT},
       </if>
-      <if test="taskId != null">
-        #{taskId,jdbcType=BIGINT},
+      <if test="eventCode != null">
+        #{eventCode,jdbcType=VARCHAR},
       </if>
       <if test="status != null">
         #{status,jdbcType=SMALLINT},
@@ -115,8 +115,8 @@
       <if test="userId != null">
         user_id = #{userId,jdbcType=BIGINT},
       </if>
-      <if test="taskId != null">
-        task_id = #{taskId,jdbcType=BIGINT},
+      <if test="eventCode != null">
+        event_code = #{eventCode,jdbcType=VARCHAR},
       </if>
       <if test="status != null">
         status = #{status,jdbcType=SMALLINT},
@@ -139,7 +139,7 @@
     set create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       user_id = #{userId,jdbcType=BIGINT},
-      task_id = #{taskId,jdbcType=BIGINT},
+      event_code = #{eventCode,jdbcType=VARCHAR},
       status = #{status,jdbcType=SMALLINT},
       source = #{source,jdbcType=VARCHAR},
       unique_source_id = #{uniqueSourceId,jdbcType=VARCHAR},
