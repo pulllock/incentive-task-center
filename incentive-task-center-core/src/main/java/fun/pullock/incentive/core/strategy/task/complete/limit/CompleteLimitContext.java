@@ -1,6 +1,6 @@
 package fun.pullock.incentive.core.strategy.task.complete.limit;
 
-import fun.pullock.incentive.api.model.TriggerParam;
+import fun.pullock.incentive.api.model.reqeust.TriggerParam;
 import fun.pullock.incentive.core.model.dto.TaskDTO;
 import lombok.Data;
 

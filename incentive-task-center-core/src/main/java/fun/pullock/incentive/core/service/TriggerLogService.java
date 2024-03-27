@@ -32,7 +32,7 @@ public class TriggerLogService {
     public void create(TriggerLogDTO triggerLog) {
         try {
             TriggerLogDO triggerLogDO = new TriggerLogDO();
-            triggerLogDO.setCreateTime(LocalDateTime.now());
+            triggerLogDO.setCreateTime(triggerLog.getCreateTime());
             triggerLogDO.setUpdateTime(triggerLogDO.getCreateTime());
             triggerLogDO.setUserId(triggerLog.getUserId());
             triggerLogDO.setEventCode(triggerLog.getEventCode());

@@ -1,6 +1,6 @@
 package fun.pullock.incentive.core.controller.app;
 
-import fun.pullock.incentive.api.model.TriggerParam;
+import fun.pullock.incentive.api.model.reqeust.TriggerParam;
 import fun.pullock.incentive.core.service.TaskService;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.PostMapping;

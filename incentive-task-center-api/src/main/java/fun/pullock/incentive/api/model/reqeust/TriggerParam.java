@@ -1,4 +1,4 @@
-package fun.pullock.incentive.api.model;
+package fun.pullock.incentive.api.model.reqeust;
 
 import java.util.Map;
 

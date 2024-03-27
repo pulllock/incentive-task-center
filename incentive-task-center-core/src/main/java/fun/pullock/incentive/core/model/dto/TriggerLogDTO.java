@@ -23,5 +23,5 @@ public class TriggerLogDTO {
 
     private String uniqueSourceId;
 
-    private String processResult;
+    private TriggerLogProcessResultDTO processResult;
 }

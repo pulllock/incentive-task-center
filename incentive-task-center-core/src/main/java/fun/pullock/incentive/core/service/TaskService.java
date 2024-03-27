@@ -2,7 +2,7 @@ package fun.pullock.incentive.core.service;
 
 import com.googlecode.aviator.AviatorEvaluator;
 import fun.pullock.general.model.ServiceException;
-import fun.pullock.incentive.api.model.TriggerParam;
+import fun.pullock.incentive.api.model.reqeust.TriggerParam;
 import fun.pullock.incentive.core.enums.AfterCompleteType;
 import fun.pullock.incentive.core.enums.CompleteLimitType;
 import fun.pullock.incentive.core.enums.ErrorCode;
@@ -63,12 +63,87 @@ public class TaskService {
         // 校验参数
         validateTriggerParam(param);
 
+        // 处理触发日志，如果返回值为null表示已经是成功的
+        TriggerLogDTO triggerLog = processTriggerLog(param);
+        if (triggerLog == null) {
+            return;
+        }
+
+        // 检查事件，如果返回false表示事件检查未通过
+        boolean c = checkEvent(param, triggerLog);
+        if (!c) {
+            return;
+        }
+
+        // 查询任务，当前实现中一个任务上只能有一个事件
+        List<TaskDTO> tasks = taskManager.queryByEvent(param.getEventCode());
+        if (CollectionUtils.isEmpty(tasks)) {
+            // 更新触发日志
+            triggerLogFailed(triggerLog.getId(), TASK_NOT_EXIST);
+            return;
+        }
+
+        List<TaskCompleteResult> completeResults = new ArrayList<>();
+        LocalDateTime now = LocalDateTime.now();
+        for (TaskDTO task : tasks) {
+            // 判断任务是否完成
+            if (!done(param, task)) {
+                continue;
+            }
+
+            TaskCompleteResult cr;
+            String lockKey = String.format("TriggerTaskLock::%s_%s", param.getUserId(), task.getId());
+            redisLock.lock(lockKey, 60 * 1000);
+            try {
+                // 判断是否达到完成次数限制
+                if (reachLimit(param, task, now)) {
+                    continue;
+                }
+
+                // 完成后的后续操作
+                cr = complete(param, task, now);
+
+            } finally {
+                redisLock.unlock(lockKey);
+            }
+
+            completeResults.add(cr);
+
+            // 异步触达
+            engage(param, task, cr);
+        }
+
+        // 更新触发日志状态
+        updateTriggerLog(completeResults, triggerLog);
+    }
+
+    private boolean checkEvent(TriggerParam param, TriggerLogDTO triggerLog) {
+        // 查询事件
+        EventDTO event = eventService.queryByCode(param.getEventCode());
+        if (event == null) {
+            // 更新触发日志
+            triggerLogFailed(triggerLog.getId(), EVENT_NOT_EXIST);
+            return false;
+        }
+
+        // 校验事件状态
+        if (event.getStatus() == DISABLE.getStatus()) {
+            // 更新触发日志
+            triggerLogFailed(triggerLog.getId(), EVENT_DISABLED);
+            return false;
+        }
+
+        return true;
+    }
+
+    private TriggerLogDTO processTriggerLog(TriggerParam param) {
         // 查询任务触发日志
         TriggerLogDTO triggerLog = triggerLogService.queryByUniqueKey(
                 param.getUserId(),
                 param.getSource(),
                 param.getUniqueSourceId()
         );
+
         if (triggerLog != null) {
             // 处理中状态
             if (triggerLog.getStatus() == PROCESSING.getStatus()) {
@@ -91,73 +166,22 @@ public class TaskService {
             // 成功状态
             else if (triggerLog.getStatus() == SUCCESS.getStatus()) {
                 // 成功
-                return;
+                return null;
             }
         } else {
             // 插入触发日志
             triggerLog = new TriggerLogDTO();
+            triggerLog.setCreateTime(LocalDateTime.now());
+            triggerLog.setUpdateTime(triggerLog.getCreateTime());
+            triggerLog.setUserId(triggerLog.getUserId());
+            triggerLog.setEventCode(triggerLog.getEventCode());
+            triggerLog.setStatus(PROCESSING.getStatus());
+            triggerLog.setSource(triggerLog.getSource());
+            triggerLog.setUniqueSourceId(triggerLog.getUniqueSourceId());
             triggerLogService.create(triggerLog);
         }
 
-        // 查询事件
-        EventDTO event = eventService.queryByCode(param.getEventCode());
-        if (event == null) {
-            // 更新触发日志
-            triggerLogFailed(triggerLog.getId(), EVENT_NOT_EXIST);
-            return;
-        }
-
-        // 校验事件状态
-        if (event.getStatus() == DISABLE.getStatus()) {
-            // 更新触发日志
-            triggerLogFailed(triggerLog.getId(), EVENT_DISABLED);
-            return;
-        }
-
-
-        // 查询任务，当前实现中一个任务上只能有一个事件
-        List<TaskDTO> tasks = taskManager.queryByEvent(param.getEventCode());
-        if (CollectionUtils.isEmpty(tasks)) {
-            // 更新触发日志
-            triggerLogFailed(triggerLog.getId(), TASK_NOT_EXIST);
-            return;
-        }
-
-        List<TaskCompleteResult> completeResults = new ArrayList<>();
-        LocalDateTime now = LocalDateTime.now();
-        for (TaskDTO task : tasks) {
-            // 判断任务是否完成
-            if (!done(param, task)) {
-                continue;
-            }
-
-            TaskCompleteResult cr;
-            // 加锁
-            String lockKey = String.format("TriggerTaskLock::%s_%s", param.getUserId(), task.getId());
-            redisLock.lock(lockKey, 60 * 1000);
-            try {
-                // 判断是否达到完成次数限制
-                if (reachLimit(param, task, now)) {
-                    continue;
-                }
-
-                // 完成后的后续操作
-                cr = complete(param, task, now);
-
-            } finally {
-                // 解锁
-                redisLock.unlock(lockKey);
-            }
-
-            completeResults.add(cr);
-
-            // 异步触达
-            engage(param, task, cr);
-
-        }
-
-        // 更新触发日志状态
-        updateTriggerLog(completeResults, triggerLog);
+        return triggerLog;
     }
 
     private void triggerLogFailed(Long id, ErrorCode errorCode) {
