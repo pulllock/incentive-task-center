@@ -1,6 +1,9 @@
 package fun.pullock.incentive.core.dao.mapper;
 
 import fun.pullock.incentive.core.dao.model.TaskDO;
+import fun.pullock.incentive.core.model.dto.TaskDTO;
+
+import java.util.List;
 
 public interface TaskMapper {
     
@@ -15,4 +18,6 @@ public interface TaskMapper {
     int updateByPrimaryKeySelective(TaskDO row);
 
     int updateByPrimaryKey(TaskDO row);
+
+    List<TaskDTO> selectByEvent(String eventCode);
 }

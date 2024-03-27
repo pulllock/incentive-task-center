@@ -255,4 +255,11 @@
       redirect_link_config = #{redirectLinkConfig,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+  <select id="selectByEvent" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from task
+    where events = #{eventCode,jdbcType=LONGVARCHAR}
+  </select>
 </mapper>
