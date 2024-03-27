@@ -13,6 +13,7 @@ import fun.pullock.incentive.core.strategy.task.complete.after.AfterCompleteHand
 import fun.pullock.incentive.core.strategy.task.complete.limit.CompleteLimitContext;
 import fun.pullock.incentive.core.strategy.task.complete.limit.CompleteLimitHandler;
 import fun.pullock.incentive.core.strategy.task.complete.limit.CompleteLimitHandlerFactory;
+import fun.pullock.starter.redis.lock.RedisLock;
 import jakarta.annotation.Resource;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -55,6 +56,9 @@ public class TaskService {
     @Resource
     private CompleteRecordService completeRecordService;
 
+    @Resource
+    private RedisLock redisLock;
+
     public void trigger(TriggerParam param) {
         // 校验参数
         validateTriggerParam(param);
@@ -73,7 +77,11 @@ public class TaskService {
             // 失败状态
             else if (triggerLog.getStatus() == FAILED.getStatus()) {
                 // 将失败状态改为处理中
-                boolean r = triggerLogService.updateStatus(1, 2, triggerLog.getId());
+                boolean r = triggerLogService.updateStatus(
+                        PROCESSING.getStatus(),
+                        FAILED.getStatus(),
+                        triggerLog.getId()
+                );
                 // 状态修改失败，可能是并发请求；状态修改成功后可以继续走正常触发任务逻辑
                 if (!r) {
                     throw new ServiceException(ErrorCode.CONCURRENCY_ERROR, "重复请求");
@@ -123,16 +131,25 @@ public class TaskService {
                 continue;
             }
 
-            // TODO 加锁
-            // 判断是否达到完成次数限制
-            if (reachLimit(param, task, now)) {
-                continue;
+            TaskCompleteResult cr;
+            // 加锁
+            String lockKey = String.format("TriggerTaskLock::%s_%s", param.getUserId(), task.getId());
+            redisLock.lock(lockKey, 60 * 1000);
+            try {
+                // 判断是否达到完成次数限制
+                if (reachLimit(param, task, now)) {
+                    continue;
+                }
+
+                // 完成后的后续操作
+                cr = complete(param, task, now);
+
+            } finally {
+                // 解锁
+                redisLock.unlock(lockKey);
             }
 
-            // 完成后的后续操作
-            TaskCompleteResult cr = complete(param, task, now);
             completeResults.add(cr);
-            // TODO 解锁
 
             // 异步触达
             engage(param, task, cr);
