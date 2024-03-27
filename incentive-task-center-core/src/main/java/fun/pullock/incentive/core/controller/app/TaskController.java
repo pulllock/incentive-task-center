@@ -19,8 +19,12 @@ public class TaskController {
     @Resource
     private TaskService taskService;
 
-    @Operation(summary = "触发激励任务")
-    @Parameter(description = "触发激励任务参数", required = true)
+    @Operation(
+            summary = "触发激励任务",
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "触发激励任务参数", required = true
+            )
+    )
     @PostMapping("/trigger")
     public void trigger(@RequestBody TriggerParam param) {
         taskService.trigger(param);

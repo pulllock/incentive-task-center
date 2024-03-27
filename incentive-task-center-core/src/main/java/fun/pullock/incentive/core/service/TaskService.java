@@ -179,11 +179,11 @@ public class TaskService {
             triggerLog = new TriggerLogDTO();
             triggerLog.setCreateTime(LocalDateTime.now());
             triggerLog.setUpdateTime(triggerLog.getCreateTime());
-            triggerLog.setUserId(triggerLog.getUserId());
-            triggerLog.setEventCode(triggerLog.getEventCode());
+            triggerLog.setUserId(param.getUserId());
+            triggerLog.setEventCode(param.getEventCode());
             triggerLog.setStatus(PROCESSING.getStatus());
-            triggerLog.setSource(triggerLog.getSource());
-            triggerLog.setUniqueSourceId(triggerLog.getUniqueSourceId());
+            triggerLog.setSource(param.getSource());
+            triggerLog.setUniqueSourceId(param.getUniqueSourceId());
             triggerLogService.create(triggerLog);
         }
 

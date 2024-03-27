@@ -32,11 +32,11 @@ public enum ErrorCode implements BaseErrorCode {
 
     @Override
     public int getErrorCode() {
-        return 0;
+        return this.errorCode;
     }
 
     @Override
     public String getErrorMsg() {
-        return null;
+        return this.errorMsg;
     }
 }
