@@ -1,7 +1,10 @@
 package fun.pullock.incentive.core.dao.mapper;
 
 import fun.pullock.incentive.core.dao.model.TriggerLogDO;
+import fun.pullock.incentive.core.model.dto.TriggerLogProcessResultDTO;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface TriggerLogMapper {
 
@@ -21,5 +24,23 @@ public interface TriggerLogMapper {
             @Param("userId") Long userId,
             @Param("source") String source,
             @Param("uniqueSourceId") String uniqueSourceId
+    );
+
+    boolean updateStatus(
+            @Param("newStatus") int newStatus,
+            @Param("oldStatus") int oldStatus,
+            @Param("id") Long id
+    );
+
+    boolean failed(
+            @Param("id") Long id,
+            @Param("processResult") String processResult
+    );
+
+    int updateResult(
+            @Param("id") Long id,
+            @Param("oldStatus") Integer oldStatus,
+            @Param("newStatus") int newStatus,
+            @Param("processResult") List<TriggerLogProcessResultDTO> processResults
     );
 }

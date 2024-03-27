@@ -29,7 +29,7 @@
     where id = #{id,jdbcType=BIGINT}
   </delete>
 
-  <insert id="insert" parameterType="fun.pullock.incentive.core.dao.model.TriggerLogDO">
+  <insert id="insert" keyColumn="id" keyProperty="id" useGeneratedKeys="true" parameterType="fun.pullock.incentive.core.dao.model.TriggerLogDO">
     insert into trigger_log (
       id, create_time, update_time,
       user_id, event_code, status, 
@@ -41,7 +41,7 @@
     )
   </insert>
 
-  <insert id="insertSelective" parameterType="fun.pullock.incentive.core.dao.model.TriggerLogDO">
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" useGeneratedKeys="true" parameterType="fun.pullock.incentive.core.dao.model.TriggerLogDO">
     insert into trigger_log
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -155,4 +155,30 @@
       and source = #{source,jdbcType=VARCHAR}
       and unique_source_id = #{uniqueSourceId,jdbcType=VARCHAR}
   </select>
+
+  <update id="updateStatus">
+    update trigger_log
+    set update_time = now(),
+        status = #{newStatus,jdbcType=SMALLINT}
+    where id = #{id,jdbcType=BIGINT}
+      and status = #{oldStatus,jdbcType=SMALLINT}
+  </update>
+
+  <update id="failed">
+    update trigger_log
+    set update_time = now(),
+        status = 2,
+        process_result = #{processResult,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+      and status = 1
+  </update>
+
+  <update id="updateResult">
+    update trigger_log
+    set update_time = now(),
+        status = #{newStatus,jdbcType=SMALLINT},
+        process_result = #{processResult,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+      and status = #{oldStatus,jdbcType=SMALLINT}
+  </update>
 </mapper>

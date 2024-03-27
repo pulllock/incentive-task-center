@@ -4,4 +4,8 @@ import lombok.Data;
 
 @Data
 public class TaskCompleteResult {
+
+    private Integer code;
+
+    private String message;
 }

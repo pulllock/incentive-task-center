@@ -8,6 +8,8 @@
     <result column="user_id" jdbcType="BIGINT" property="userId" />
     <result column="task_id" jdbcType="BIGINT" property="taskId" />
     <result column="status" jdbcType="SMALLINT" property="status" />
+    <result column="complete_date" jdbcType="DATE" property="completeDate" />
+    <result column="complete_time" jdbcType="TIME" property="completeTime" />
     <result column="source" jdbcType="VARCHAR" property="source" />
     <result column="unique_source_id" jdbcType="VARCHAR" property="uniqueSourceId" />
     <result column="after_complete_type" jdbcType="SMALLINT" property="afterCompleteType" />
@@ -15,8 +17,10 @@
   </resultMap>
 
   <sql id="Base_Column_List">
-    id, create_time, update_time, user_id, task_id, status, source, unique_source_id, 
-    after_complete_type, after_complete_rule
+    id, create_time, update_time,
+    user_id, task_id, status,
+    complete_date, complete_time, source,
+    unique_source_id, after_complete_type, after_complete_rule
   </sql>
 
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
@@ -34,14 +38,14 @@
   <insert id="insert" parameterType="fun.pullock.incentive.core.dao.model.CompleteRecordDO">
     insert into complete_record (
       id, create_time, update_time,
-      user_id, task_id, status, 
-      source, unique_source_id, after_complete_type, 
-      after_complete_rule
+      user_id, task_id, status,
+      complete_date, complete_time, source,
+      unique_source_id, after_complete_type, after_complete_rule
     ) values (
       #{id,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP},
-      #{userId,jdbcType=BIGINT}, #{taskId,jdbcType=BIGINT}, #{status,jdbcType=SMALLINT}, 
-      #{source,jdbcType=VARCHAR}, #{uniqueSourceId,jdbcType=VARCHAR}, #{afterCompleteType,jdbcType=SMALLINT}, 
-      #{afterCompleteRule,jdbcType=LONGVARCHAR}
+      #{userId,jdbcType=BIGINT}, #{taskId,jdbcType=BIGINT}, #{status,jdbcType=SMALLINT},
+      #{completeDate,jdbcType=DATE}, #{completeTime,jdbcType=TIME}, #{source,jdbcType=VARCHAR},
+      #{uniqueSourceId,jdbcType=VARCHAR}, #{afterCompleteType,jdbcType=SMALLINT}, #{afterCompleteRule,jdbcType=LONGVARCHAR}
     )
   </insert>
 
@@ -65,6 +69,12 @@
       </if>
       <if test="status != null">
         status,
+      </if>
+      <if test="completeDate != null">
+        complete_date,
+      </if>
+      <if test="completeTime != null">
+        complete_time,
       </if>
       <if test="source != null">
         source,
@@ -97,6 +107,12 @@
       </if>
       <if test="status != null">
         #{status,jdbcType=SMALLINT},
+      </if>
+      <if test="completeDate != null">
+        #{completeDate,jdbcType=DATE},
+      </if>
+      <if test="completeTime != null">
+        #{completeTime,jdbcType=TIME},
       </if>
       <if test="source != null">
         #{source,jdbcType=VARCHAR},
@@ -131,6 +147,12 @@
       <if test="status != null">
         status = #{status,jdbcType=SMALLINT},
       </if>
+      <if test="completeDate != null">
+        complete_date = #{completeDate,jdbcType=DATE},
+      </if>
+      <if test="completeTime != null">
+        complete_time = #{completeTime,jdbcType=TIME},
+      </if>
       <if test="source != null">
         source = #{source,jdbcType=VARCHAR},
       </if>
@@ -154,10 +176,30 @@
       user_id = #{userId,jdbcType=BIGINT},
       task_id = #{taskId,jdbcType=BIGINT},
       status = #{status,jdbcType=SMALLINT},
+      complete_date = #{completeDate,jdbcType=DATE},
+      complete_time = #{completeTime,jdbcType=TIME},
       source = #{source,jdbcType=VARCHAR},
       unique_source_id = #{uniqueSourceId,jdbcType=VARCHAR},
       after_complete_type = #{afterCompleteType,jdbcType=SMALLINT},
       after_complete_rule = #{afterCompleteRule,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+  <select id="selectByUserTask" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from complete_record
+    where user_id = #{userId,jdbcType=BIGINT}
+      and task_id = #{taskId,jdbcType=BIGINT}
+  </select>
+
+  <select id="selectByUserTaskDate" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from complete_record
+    where user_id = #{userId,jdbcType=BIGINT}
+      and task_id = #{taskId,jdbcType=BIGINT}
+      and complete_date <![CDATA[ >= ]]> #{completeDateStart,jdbcType=DATE}
+      and complete_date <![CDATA[ <= ]]> #{completeDateEnd,jdbcType=DATE}
+  </select>
 </mapper>

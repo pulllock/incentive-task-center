@@ -87,6 +87,8 @@ CREATE TABLE complete_record (
   user_id              bigint(20)                         NOT NULL COMMENT '用户ID',
   task_id              bigint(20)                         NOT NULL COMMENT '任务ID',
   status               smallint(6)                        NOT NULL DEFAULT 1 COMMENT '状态，取值：1-待领取 2-已完成',
+  complete_date        date                                        DEFAULT NULL COMMENT '完成日期',
+  complete_time        time                                        DEFAULT NULL COMMENT '完成时间',
   source               varchar(20)                        NOT NULL COMMENT '业务来源',
   unique_source_id     varchar(64)                        NOT NULL COMMENT '来源的唯一ID，实现幂等',
   after_complete_type  smallint(6)                        NOT NULL COMMENT '完成后的后续操作类型，取值：0-无操作 1-积分 2-勋章 3-发送MQ消息',

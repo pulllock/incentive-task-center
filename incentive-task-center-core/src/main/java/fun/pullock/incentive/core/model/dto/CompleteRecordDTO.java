@@ -1,4 +1,4 @@
-package fun.pullock.incentive.core.dao.model;
+package fun.pullock.incentive.core.model.dto;
 
 import lombok.Data;
 
@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Data
-public class CompleteRecordDO {
+public class CompleteRecordDTO {
 
     private Long id;
 

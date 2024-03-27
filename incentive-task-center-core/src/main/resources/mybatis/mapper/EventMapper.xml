@@ -124,4 +124,11 @@
       description = #{description,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+  <select id="selectByCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from event
+    where code = #{code,jdbcType=VARCHAR}
+  </select>
 </mapper>
