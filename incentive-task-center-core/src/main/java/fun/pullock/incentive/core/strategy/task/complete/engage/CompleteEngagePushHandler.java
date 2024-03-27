@@ -4,9 +4,11 @@ import fun.pullock.incentive.core.model.reqeust.TriggerParam;
 import fun.pullock.incentive.core.enums.CompleteEngageWay;
 import fun.pullock.incentive.core.model.dto.TaskCompleteResult;
 import fun.pullock.incentive.core.model.dto.TaskDTO;
+import org.springframework.stereotype.Component;
 
 import static fun.pullock.incentive.core.enums.CompleteEngageWay.PUSH;
 
+@Component
 public class CompleteEngagePushHandler implements CompleteEngageHandler {
 
     @Override

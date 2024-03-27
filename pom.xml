@@ -24,9 +24,8 @@
         <java.version>17</java.version>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
-        <spring-boot.version>3.0.2</spring-boot.version>
-        <spring-cloud.version>2022.0.1</spring-cloud.version>
-        <mybatis-spring-boot-starter.version>3.0.1</mybatis-spring-boot-starter.version>
+        <spring-boot.version>3.2.3</spring-boot.version>
+        <mybatis-spring-boot-starter.version>3.0.3</mybatis-spring-boot-starter.version>
         <aviator.version>5.4.1</aviator.version>
         <general-starter.version>1.0.0-SNAPSHOT</general-starter.version>
         <springdoc.version>2.4.0</springdoc.version>
