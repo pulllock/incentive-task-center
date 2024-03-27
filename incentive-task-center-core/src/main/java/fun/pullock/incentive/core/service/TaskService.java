@@ -2,7 +2,7 @@ package fun.pullock.incentive.core.service;
 
 import com.googlecode.aviator.AviatorEvaluator;
 import fun.pullock.general.model.ServiceException;
-import fun.pullock.incentive.api.model.reqeust.TriggerParam;
+import fun.pullock.incentive.core.model.reqeust.TriggerParam;
 import fun.pullock.incentive.core.enums.AfterCompleteType;
 import fun.pullock.incentive.core.enums.CompleteEngageWay;
 import fun.pullock.incentive.core.enums.CompleteLimitType;
@@ -76,8 +76,7 @@ public class TaskService {
         }
 
         // 检查事件，如果返回false表示事件检查未通过
-        boolean c = checkEvent(param, triggerLog);
-        if (!c) {
+        if (!checkEvent(param, triggerLog)) {
             return;
         }
 

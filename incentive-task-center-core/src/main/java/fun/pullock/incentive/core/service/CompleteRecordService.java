@@ -1,6 +1,6 @@
 package fun.pullock.incentive.core.service;
 
-import fun.pullock.incentive.api.model.reqeust.TriggerParam;
+import fun.pullock.incentive.core.model.reqeust.TriggerParam;
 import fun.pullock.incentive.core.dao.mapper.CompleteRecordMapper;
 import fun.pullock.incentive.core.dao.model.CompleteRecordDO;
 import fun.pullock.incentive.core.model.dto.CompleteRecordDTO;

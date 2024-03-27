@@ -1,6 +1,6 @@
 package fun.pullock.incentive.core.collector.mq.consumer;
 
-import fun.pullock.incentive.api.model.reqeust.TriggerParam;
+import fun.pullock.incentive.core.model.reqeust.TriggerParam;
 import fun.pullock.incentive.core.service.TaskService;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Component;

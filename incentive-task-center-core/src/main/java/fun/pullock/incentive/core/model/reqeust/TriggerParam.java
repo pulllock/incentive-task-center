@@ -1,20 +1,28 @@
-package fun.pullock.incentive.api.model.reqeust;
+package fun.pullock.incentive.core.model.reqeust;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.util.Map;
 
 /**
  * 任务触发的参数
  */
+@Schema(title = "任务触发的参数")
 public class TriggerParam {
 
+    @Schema(title = "用户ID")
     private Long userId;
 
+    @Schema(title = "事件编码")
     private String eventCode;
 
+    @Schema(title = "事件规则数据")
     private Map<String, Object> eventRuleData;
 
+    @Schema(title = "来源")
     private String source;
 
+    @Schema(title = "唯一来源ID")
     private String uniqueSourceId;
 
     public Long getUserId() {
