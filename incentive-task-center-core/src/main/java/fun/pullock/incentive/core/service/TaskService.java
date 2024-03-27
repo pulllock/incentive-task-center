@@ -4,12 +4,15 @@ import com.googlecode.aviator.AviatorEvaluator;
 import fun.pullock.general.model.ServiceException;
 import fun.pullock.incentive.api.model.reqeust.TriggerParam;
 import fun.pullock.incentive.core.enums.AfterCompleteType;
+import fun.pullock.incentive.core.enums.CompleteEngageWay;
 import fun.pullock.incentive.core.enums.CompleteLimitType;
 import fun.pullock.incentive.core.enums.ErrorCode;
 import fun.pullock.incentive.core.manager.TaskManager;
 import fun.pullock.incentive.core.model.dto.*;
 import fun.pullock.incentive.core.strategy.task.complete.after.AfterCompleteHandler;
 import fun.pullock.incentive.core.strategy.task.complete.after.AfterCompleteHandlerFactory;
+import fun.pullock.incentive.core.strategy.task.complete.engage.CompleteEngageHandler;
+import fun.pullock.incentive.core.strategy.task.complete.engage.CompleteEngageHandlerFactory;
 import fun.pullock.incentive.core.strategy.task.complete.limit.CompleteLimitContext;
 import fun.pullock.incentive.core.strategy.task.complete.limit.CompleteLimitHandler;
 import fun.pullock.incentive.core.strategy.task.complete.limit.CompleteLimitHandlerFactory;
@@ -59,6 +62,9 @@ public class TaskService {
     @Resource
     private RedisLock redisLock;
 
+    @Resource
+    private CompleteEngageHandlerFactory completeEngageHandlerFactory;
+
     public void trigger(TriggerParam param) {
         // 校验参数
         validateTriggerParam(param);
@@ -107,6 +113,7 @@ public class TaskService {
                 redisLock.unlock(lockKey);
             }
 
+            cr.setTaskId(task.getId());
             completeResults.add(cr);
 
             // 异步触达
@@ -205,7 +212,10 @@ public class TaskService {
     }
 
     private void engage(TriggerParam param, TaskDTO task, TaskCompleteResult cr) {
-        // TODO 异步触达
+        CompleteEngageHandler handler = completeEngageHandlerFactory.getHandler(
+                CompleteEngageWay.of(task.getCompleteEngageWay())
+        );
+        handler.engage(param, task, cr);
     }
 
     private TaskCompleteResult complete(TriggerParam param, TaskDTO task, LocalDateTime now) {
