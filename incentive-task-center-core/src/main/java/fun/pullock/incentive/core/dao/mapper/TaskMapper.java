@@ -19,4 +19,6 @@ public interface TaskMapper {
     int updateByPrimaryKey(TaskDO row);
 
     List<TaskDO> selectByEvent(String eventCode);
+
+    List<TaskDO> selectAll();
 }

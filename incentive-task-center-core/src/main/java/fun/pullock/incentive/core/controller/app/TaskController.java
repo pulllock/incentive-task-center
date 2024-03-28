@@ -1,15 +1,15 @@
 package fun.pullock.incentive.core.controller.app;
 
+import fun.pullock.incentive.core.model.app.vo.UserTaskVO;
 import fun.pullock.incentive.core.model.reqeust.TriggerParam;
 import fun.pullock.incentive.core.service.TaskService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Tag(name = "激励任务APP端接口")
 @RestController
@@ -28,5 +28,13 @@ public class TaskController {
     @PostMapping("/trigger")
     public void trigger(@RequestBody TriggerParam param) {
         taskService.trigger(param);
+    }
+
+
+    @Operation(summary = "任务列表")
+    @GetMapping("/list")
+    public List<UserTaskVO> list() {
+        Long userId = 1L;
+        return taskService.list(userId);
     }
 }

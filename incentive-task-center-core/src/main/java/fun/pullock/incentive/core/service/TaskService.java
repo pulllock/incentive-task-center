@@ -2,6 +2,7 @@ package fun.pullock.incentive.core.service;
 
 import com.googlecode.aviator.AviatorEvaluator;
 import fun.pullock.general.model.ServiceException;
+import fun.pullock.incentive.core.model.app.vo.UserTaskVO;
 import fun.pullock.incentive.core.model.reqeust.TriggerParam;
 import fun.pullock.incentive.core.enums.AfterCompleteType;
 import fun.pullock.incentive.core.enums.CompleteEngageWay;
@@ -26,8 +27,10 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static fun.pullock.incentive.core.enums.CompleteRecordStatus.DONE;
 import static fun.pullock.incentive.core.enums.CompleteRecordStatus.TO_BE_CLAIMED;
@@ -101,7 +104,7 @@ public class TaskService {
             redisLock.lock(lockKey, 60 * 1000);
             try {
                 // 判断是否达到完成次数限制
-                if (reachLimit(param, task, now)) {
+                if (reachLimit(param.getUserId(), task, now)) {
                     continue;
                 }
 
@@ -121,6 +124,36 @@ public class TaskService {
 
         // 更新触发日志状态
         updateTriggerLog(completeResults, triggerLog);
+    }
+
+    public List<UserTaskVO> list(Long userId) {
+        List<TaskDTO> tasks = taskManager.queryAllTasks();
+        tasks = tasks.stream()
+                .sorted(Comparator.comparing(TaskDTO::getSequenceWeight)
+                        .thenComparing(TaskDTO::getId)
+                )
+                .toList();
+        LocalDateTime now = LocalDateTime.now();
+        return tasks.stream()
+                .map(t -> {
+                    UserTaskVO task = new UserTaskVO();
+                    task.setId(t.getId());
+                    task.setName(t.getName());
+                    task.setDescription(t.getDescription());
+
+                    // 计算状态，待领取状态暂时未实现
+                    task.setStatus(reachLimit(userId, t, now) ? 2 : 0);
+
+                    // 按钮文案
+                    task.setButtonText(t.getButtonConfig().getText().get(task.getStatus()));
+
+                    // 链接
+                    if (t.getRedirectLinkConfig().getUrl() != null) {
+                        task.setUrl(t.getRedirectLinkConfig().getUrl().get(task.getStatus()));
+                    }
+                    return task;
+                })
+                .collect(Collectors.toList());
     }
 
     private boolean checkEvent(TriggerParam param, TriggerLogDTO triggerLog) {
@@ -245,11 +278,11 @@ public class TaskService {
         return result;
     }
 
-    private boolean reachLimit(TriggerParam triggerParam, TaskDTO task, LocalDateTime now) {
+    private boolean reachLimit(Long userId, TaskDTO task, LocalDateTime now) {
         CompleteLimitHandler handler = completeLimitHandlerFactory.getHandler(
                 CompleteLimitType.of(task.getCompleteLimitRule().getType())
         );
-        return handler.reachLimit(new CompleteLimitContext(triggerParam, task, now));
+        return handler.reachLimit(new CompleteLimitContext(userId, task, now));
     }
 
     private boolean done(TriggerParam param, TaskDTO task) {

@@ -6,6 +6,7 @@ import fun.pullock.incentive.core.dao.model.CompleteRecordDO;
 import fun.pullock.incentive.core.model.dto.CompleteRecordDTO;
 import fun.pullock.incentive.core.model.dto.TaskCompleteResult;
 import fun.pullock.incentive.core.model.dto.TaskDTO;
+import fun.pullock.starter.json.Json;
 import jakarta.annotation.Resource;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -48,7 +49,7 @@ public class CompleteRecordService {
         record.setSource(param.getSource());
         record.setUniqueSourceId(param.getUniqueSourceId());
         record.setAfterCompleteType(task.getAfterCompleteType());
-        record.setAfterCompleteRule(task.getAfterCompleteRule());
+        record.setAfterCompleteRule(Json.toJson(task.getAfterCompleteRule()));
         return completeRecordMapper.insertSelective(record) == 1;
     }
 

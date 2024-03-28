@@ -30,7 +30,7 @@ public class CompleteLimitMonthRelativeHandler implements CompleteLimitHandler {
         );
 
         List<CompleteRecordDTO> records = completeRecordService.queryByUserTaskDateRange(
-                context.getTriggerParam().getUserId(),
+                context.getUserId(),
                 context.getTask().getId(),
                 startDay,
                 today

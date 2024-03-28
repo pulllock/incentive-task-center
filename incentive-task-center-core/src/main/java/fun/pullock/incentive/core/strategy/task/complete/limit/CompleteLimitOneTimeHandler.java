@@ -25,7 +25,7 @@ public class CompleteLimitOneTimeHandler implements CompleteLimitHandler {
     @Override
     public Boolean reachLimit(CompleteLimitContext context) {
         List<CompleteRecordDTO> records = completeRecordService.queryByUserTask(
-                context.getTriggerParam().getUserId(),
+                context.getUserId(),
                 context.getTask().getId()
         );
         return CollectionUtils.isNotEmpty(records);

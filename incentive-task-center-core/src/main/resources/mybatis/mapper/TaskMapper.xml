@@ -262,4 +262,11 @@
     from task
     where events = #{eventCode,jdbcType=LONGVARCHAR}
   </select>
+
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from task
+    order by sequence_weight asc, id desc
+  </select>
 </mapper>

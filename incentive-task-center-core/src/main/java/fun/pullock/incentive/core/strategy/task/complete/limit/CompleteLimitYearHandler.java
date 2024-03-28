@@ -30,7 +30,7 @@ public class CompleteLimitYearHandler implements CompleteLimitHandler {
                 .minusYears(context.getTask().getCompleteLimitRule().getPeriod() - 1);
 
         List<CompleteRecordDTO> records = completeRecordService.queryByUserTaskDateRange(
-                context.getTriggerParam().getUserId(),
+                context.getUserId(),
                 context.getTask().getId(),
                 startDay,
                 today

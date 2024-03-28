@@ -35,11 +35,11 @@ public class TaskDTO {
 
     private TaskCompleteLimitRuleDTO completeLimitRule;
 
-    private String afterCompleteRule;
+    private TaskAfterCompleteRuleDTO afterCompleteRule;
 
-    private String completeEngageRule;
+    private TaskCompleteEngageRuleDTO completeEngageRule;
 
-    private String buttonConfig;
+    private TaskButtonConfigDTO buttonConfig;
 
-    private String redirectLinkConfig;
+    private TaskRedirectLinkConfigDTO redirectLinkConfig;
 }

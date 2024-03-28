@@ -109,3 +109,6 @@ Content-Type: application/json
   "source": "user",
   "uniqueSourceId": {{$timestamp}}
 }
+
+### 查询任务列表
+GET http://localhost:8080/app/task/list
