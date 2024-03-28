@@ -19,6 +19,6 @@ public class AfterCompletePointsHandler implements AfterCompleteHandler {
     @Override
     public TaskCompleteResult complete(TriggerParam param, TaskDTO task) {
         // TODO
-        return null;
+        return new TaskCompleteResult(0, "");
     }
 }

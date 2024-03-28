@@ -1,0 +1,111 @@
+### 触发激励任务：每日登录
+POST http://localhost:8080/app/task/trigger
+Content-Type: application/json
+
+{
+  "userId": 1,
+  "eventCode": "daily_login",
+  "eventRuleData": {
+    "value": true
+  },
+  "source": "user",
+  "uniqueSourceId": {{$timestamp}}
+}
+
+### 触发激励任务：邀请好友
+POST http://localhost:8080/app/task/trigger
+Content-Type: application/json
+
+{
+  "userId": 1,
+  "eventCode": "invite_friend",
+  "eventRuleData": {
+    "value": true
+  },
+  "source": "user",
+  "uniqueSourceId": {{$timestamp}}
+}
+
+### 触发激励任务：每日签到
+POST http://localhost:8080/app/task/trigger
+Content-Type: application/json
+
+{
+  "userId": 1,
+  "eventCode": "daily_sign_in",
+  "eventRuleData": {
+    "value": true
+  },
+  "source": "user",
+  "uniqueSourceId": {{$timestamp}}
+}
+
+### 触发激励任务：分享
+POST http://localhost:8080/app/task/trigger
+Content-Type: application/json
+
+{
+  "userId": 1,
+  "eventCode": "share",
+  "eventRuleData": {
+    "value": true
+  },
+  "source": "user",
+  "uniqueSourceId": {{$timestamp}}
+}
+
+### 触发激励任务：购买产品
+POST http://localhost:8080/app/task/trigger
+Content-Type: application/json
+
+{
+  "userId": 1,
+  "eventCode": "buy_product",
+  "eventRuleData": {
+    "totalTimes": 5
+  },
+  "source": "order",
+  "uniqueSourceId": {{$timestamp}}
+}
+
+### 触发激励任务：成为会员
+POST http://localhost:8080/app/task/trigger
+Content-Type: application/json
+
+{
+  "userId": 1,
+  "eventCode": "buy_vip",
+  "eventRuleData": {
+    "value": true
+  },
+  "source": "user",
+  "uniqueSourceId": {{$timestamp}}
+}
+
+### 触发激励任务：首次完成付费
+POST http://localhost:8080/app/task/trigger
+Content-Type: application/json
+
+{
+  "userId": 1,
+  "eventCode": "pay",
+  "eventRuleData": {
+    "totalTimes": 1
+  },
+  "source": "member",
+  "uniqueSourceId": {{$timestamp}}
+}
+
+### 触发激励任务：注册
+POST http://localhost:8080/app/task/trigger
+Content-Type: application/json
+
+{
+  "userId": 1,
+  "eventCode": "user_register",
+  "eventRuleData": {
+    "value": true
+  },
+  "source": "user",
+  "uniqueSourceId": {{$timestamp}}
+}

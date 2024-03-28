@@ -58,7 +58,7 @@ public class TriggerLogService {
     }
 
     public boolean updateResult(Long id, Integer oldStatus, int newStatus, List<TriggerLogProcessResultDTO> processResults) {
-        return triggerLogMapper.updateResult(id, oldStatus, newStatus, processResults) == 1;
+        return triggerLogMapper.updateResult(id, oldStatus, newStatus, Json.toJson(processResults)) == 1;
     }
 
     private TriggerLogDTO toTriggerLogDTO(TriggerLogDO source) {
