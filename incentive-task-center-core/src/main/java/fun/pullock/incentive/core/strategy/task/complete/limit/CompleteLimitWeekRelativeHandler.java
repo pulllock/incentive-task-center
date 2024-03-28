@@ -10,6 +10,8 @@ import java.time.LocalDate;
 import java.util.List;
 
 import static fun.pullock.incentive.core.enums.CompleteLimitType.WEEK_RELATIVE;
+import static fun.pullock.incentive.core.enums.CompleteRecordStatus.DONE;
+import static fun.pullock.incentive.core.enums.CompleteRecordStatus.TO_BE_CLAIMED;
 
 @Component
 public class CompleteLimitWeekRelativeHandler implements CompleteLimitHandler {
@@ -23,7 +25,7 @@ public class CompleteLimitWeekRelativeHandler implements CompleteLimitHandler {
     }
 
     @Override
-    public Boolean reachLimit(CompleteLimitContext context) {
+    public CompleteLimitResult reachLimit(CompleteLimitContext context) {
         LocalDate today = context.getNow().toLocalDate();
         LocalDate startDay = today.minusDays(
                 (7L * context.getTask().getCompleteLimitRule().getPeriod()) - 1
@@ -36,6 +38,11 @@ public class CompleteLimitWeekRelativeHandler implements CompleteLimitHandler {
                 today
         );
 
-        return records.size() >= context.getTask().getCompleteLimitRule().getTimes();
+        return new CompleteLimitResult(
+                records.size() >= context.getTask().getCompleteLimitRule().getTimes(),
+                context.getTask().getCompleteLimitRule().getTimes(),
+                (int) records.stream().filter(r -> r.getStatus() == DONE.getStatus()).count(),
+                (int) records.stream().filter(r -> r.getStatus() == TO_BE_CLAIMED.getStatus()).count()
+        );
     }
 }

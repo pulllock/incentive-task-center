@@ -10,6 +10,8 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 import static fun.pullock.incentive.core.enums.CompleteLimitType.ONE_TIME;
+import static fun.pullock.incentive.core.enums.CompleteRecordStatus.DONE;
+import static fun.pullock.incentive.core.enums.CompleteRecordStatus.TO_BE_CLAIMED;
 
 @Component
 public class CompleteLimitOneTimeHandler implements CompleteLimitHandler {
@@ -23,11 +25,17 @@ public class CompleteLimitOneTimeHandler implements CompleteLimitHandler {
     }
 
     @Override
-    public Boolean reachLimit(CompleteLimitContext context) {
+    public CompleteLimitResult reachLimit(CompleteLimitContext context) {
         List<CompleteRecordDTO> records = completeRecordService.queryByUserTask(
                 context.getUserId(),
                 context.getTask().getId()
         );
-        return CollectionUtils.isNotEmpty(records);
+
+        return new CompleteLimitResult(
+                CollectionUtils.isNotEmpty(records),
+                1,
+                (int) records.stream().filter(r -> r.getStatus() == DONE.getStatus()).count(),
+                (int) records.stream().filter(r -> r.getStatus() == TO_BE_CLAIMED.getStatus()).count()
+        );
     }
 }

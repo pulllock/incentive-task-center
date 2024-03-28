@@ -6,5 +6,5 @@ public interface CompleteLimitHandler {
 
     CompleteLimitType type();
 
-    Boolean reachLimit(CompleteLimitContext context);
+    CompleteLimitResult reachLimit(CompleteLimitContext context);
 }

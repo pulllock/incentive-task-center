@@ -2,12 +2,9 @@ package fun.pullock.incentive.core.service;
 
 import com.googlecode.aviator.AviatorEvaluator;
 import fun.pullock.general.model.ServiceException;
+import fun.pullock.incentive.core.enums.*;
 import fun.pullock.incentive.core.model.app.vo.UserTaskVO;
 import fun.pullock.incentive.core.model.reqeust.TriggerParam;
-import fun.pullock.incentive.core.enums.AfterCompleteType;
-import fun.pullock.incentive.core.enums.CompleteEngageWay;
-import fun.pullock.incentive.core.enums.CompleteLimitType;
-import fun.pullock.incentive.core.enums.ErrorCode;
 import fun.pullock.incentive.core.manager.TaskManager;
 import fun.pullock.incentive.core.model.dto.*;
 import fun.pullock.incentive.core.strategy.task.complete.after.AfterCompleteHandler;
@@ -17,6 +14,7 @@ import fun.pullock.incentive.core.strategy.task.complete.engage.CompleteEngageHa
 import fun.pullock.incentive.core.strategy.task.complete.limit.CompleteLimitContext;
 import fun.pullock.incentive.core.strategy.task.complete.limit.CompleteLimitHandler;
 import fun.pullock.incentive.core.strategy.task.complete.limit.CompleteLimitHandlerFactory;
+import fun.pullock.incentive.core.strategy.task.complete.limit.CompleteLimitResult;
 import fun.pullock.starter.redis.lock.RedisLock;
 import jakarta.annotation.Resource;
 import org.apache.commons.collections4.CollectionUtils;
@@ -32,8 +30,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static fun.pullock.incentive.core.enums.CompleteRecordStatus.DONE;
-import static fun.pullock.incentive.core.enums.CompleteRecordStatus.TO_BE_CLAIMED;
+import static fun.pullock.incentive.core.enums.CompleteRecordStatus.*;
 import static fun.pullock.incentive.core.enums.CompleteType.AUTO;
 import static fun.pullock.incentive.core.enums.ErrorCode.*;
 import static fun.pullock.incentive.core.enums.EventStatus.DISABLE;
@@ -104,7 +101,7 @@ public class TaskService {
             redisLock.lock(lockKey, 60 * 1000);
             try {
                 // 判断是否达到完成次数限制
-                if (reachLimit(param.getUserId(), task, now)) {
+                if (reachLimit(param.getUserId(), task, now).getReachLimit()) {
                     continue;
                 }
 
@@ -141,8 +138,20 @@ public class TaskService {
                     task.setName(t.getName());
                     task.setDescription(t.getDescription());
 
-                    // 计算状态，待领取状态暂时未实现
-                    task.setStatus(reachLimit(userId, t, now) ? 2 : 0);
+                    CompleteLimitResult limitResult = reachLimit(userId, t, now);
+                    task.setLimitNumber(limitResult.getLimitNumber());
+                    task.setCompletedNumber(limitResult.getCompletedNumber());
+                    task.setToBeClaimedNumber(limitResult.getToBeClaimedNumber());
+
+                    int status = UNDONE.getStatus();
+                    if (limitResult.getReachLimit()) {
+                        status = DONE.getStatus();
+                    }
+
+                    if (limitResult.getToBeClaimedNumber() > 0) {
+                        status = TO_BE_CLAIMED.getStatus();
+                    }
+                    task.setStatus(status);
 
                     // 按钮文案
                     task.setButtonText(t.getButtonConfig().getText().get(task.getStatus()));
@@ -278,7 +287,7 @@ public class TaskService {
         return result;
     }
 
-    private boolean reachLimit(Long userId, TaskDTO task, LocalDateTime now) {
+    private CompleteLimitResult reachLimit(Long userId, TaskDTO task, LocalDateTime now) {
         CompleteLimitHandler handler = completeLimitHandlerFactory.getHandler(
                 CompleteLimitType.of(task.getCompleteLimitRule().getType())
         );

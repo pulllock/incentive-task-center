@@ -11,6 +11,8 @@ import java.time.temporal.TemporalAdjusters;
 import java.util.List;
 
 import static fun.pullock.incentive.core.enums.CompleteLimitType.MONTH;
+import static fun.pullock.incentive.core.enums.CompleteRecordStatus.DONE;
+import static fun.pullock.incentive.core.enums.CompleteRecordStatus.TO_BE_CLAIMED;
 
 @Component
 public class CompleteLimitMonthHandler implements CompleteLimitHandler {
@@ -24,7 +26,7 @@ public class CompleteLimitMonthHandler implements CompleteLimitHandler {
     }
 
     @Override
-    public Boolean reachLimit(CompleteLimitContext context) {
+    public CompleteLimitResult reachLimit(CompleteLimitContext context) {
         LocalDate today = context.getNow().toLocalDate();
         LocalDate startDay = today.with(TemporalAdjusters.firstDayOfMonth())
                 .minusMonths(context.getTask().getCompleteLimitRule().getPeriod() - 1);
@@ -36,6 +38,11 @@ public class CompleteLimitMonthHandler implements CompleteLimitHandler {
                 today
         );
 
-        return records.size() >= context.getTask().getCompleteLimitRule().getTimes();
+        return new CompleteLimitResult(
+                records.size() >= context.getTask().getCompleteLimitRule().getTimes(),
+                context.getTask().getCompleteLimitRule().getTimes(),
+                (int) records.stream().filter(r -> r.getStatus() == DONE.getStatus()).count(),
+                (int) records.stream().filter(r -> r.getStatus() == TO_BE_CLAIMED.getStatus()).count()
+        );
     }
 }

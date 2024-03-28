@@ -24,4 +24,13 @@ public class UserTaskVO {
 
     @Schema(title = "链接")
     private String url;
+
+    @Schema(title = "可以完成的次数")
+    private Integer limitNumber;
+
+    @Schema(title = "已完成的次数")
+    private Integer completedNumber;
+
+    @Schema(title = "待领取的次数")
+    private Integer toBeClaimedNumber;
 }
