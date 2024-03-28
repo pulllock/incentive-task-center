@@ -31,4 +31,10 @@ public interface CompleteRecordMapper {
             @Param("completeDateStart") LocalDate completeDateStart,
             @Param("completeDateEnd")  LocalDate completeDateEnd
     );
+
+    int updateStatus(
+            @Param("id") Long id,
+            @Param("oldStatus") Integer oldStatus,
+            @Param("newStatus") int newStatus
+    );
 }

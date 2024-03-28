@@ -33,6 +33,10 @@ public class TaskManager {
         return tasks.stream().map(this::toTaskDTO).collect(Collectors.toList());
     }
 
+    public TaskDTO queryById(Long id) {
+        return toTaskDTO(taskMapper.selectByPrimaryKey(id));
+    }
+
     private TaskDTO toTaskDTO(TaskDO source) {
         if (source == null) {
             return null;

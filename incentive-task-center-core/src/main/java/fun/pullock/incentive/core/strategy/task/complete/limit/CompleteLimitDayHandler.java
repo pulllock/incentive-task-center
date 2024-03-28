@@ -41,7 +41,8 @@ public class CompleteLimitDayHandler implements CompleteLimitHandler {
                 records.size() >= context.getTask().getCompleteLimitRule().getTimes(),
                 context.getTask().getCompleteLimitRule().getTimes(),
                 (int) records.stream().filter(r -> r.getStatus() == DONE.getStatus()).count(),
-                (int) records.stream().filter(r -> r.getStatus() == TO_BE_CLAIMED.getStatus()).count()
+                (int) records.stream().filter(r -> r.getStatus() == TO_BE_CLAIMED.getStatus()).count(),
+                records
         );
     }
 }

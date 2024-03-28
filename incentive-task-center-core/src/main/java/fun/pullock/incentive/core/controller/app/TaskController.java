@@ -37,4 +37,16 @@ public class TaskController {
         Long userId = 1L;
         return taskService.list(userId);
     }
+
+    @Operation(
+            summary = "领取奖励",
+            parameters = {
+                    @Parameter(description = "任务ID", required = true)
+            }
+    )
+    @GetMapping("/claim")
+    public void claim(@RequestParam("id") Long id) {
+        Long userId = 1L;
+        taskService.claim(userId, id);
+    }
 }

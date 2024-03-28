@@ -202,4 +202,12 @@
       and complete_date <![CDATA[ >= ]]> #{completeDateStart,jdbcType=DATE}
       and complete_date <![CDATA[ <= ]]> #{completeDateEnd,jdbcType=DATE}
   </select>
+
+  <update id="updateStatus">
+    update complete_record
+    set update_time = now(),
+        status = #{newStatus,jdbcType=SMALLINT}
+    where id = #{id,jdbcType=BIGINT}
+      and status = #{oldStatus,jdbcType=SMALLINT}
+  </update>
 </mapper>

@@ -62,4 +62,8 @@ public class CompleteRecordService {
         BeanUtils.copyProperties(source, target);
         return target;
     }
+
+    public boolean updateStatus(Long id, Integer oldStatus, int newStatus) {
+        return completeRecordMapper.updateStatus(id, oldStatus, newStatus) == 1;
+    }
 }

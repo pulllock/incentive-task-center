@@ -35,7 +35,8 @@ public class CompleteLimitOneTimeHandler implements CompleteLimitHandler {
                 CollectionUtils.isNotEmpty(records),
                 1,
                 (int) records.stream().filter(r -> r.getStatus() == DONE.getStatus()).count(),
-                (int) records.stream().filter(r -> r.getStatus() == TO_BE_CLAIMED.getStatus()).count()
+                (int) records.stream().filter(r -> r.getStatus() == TO_BE_CLAIMED.getStatus()).count(),
+                records
         );
     }
 }

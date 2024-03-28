@@ -136,6 +136,59 @@ public class TaskService {
                 .collect(Collectors.toList());
     }
 
+    public void claim(Long userId, Long id) {
+        TaskDTO task = taskManager.queryById(id);
+        if (task == null) {
+            return;
+        }
+
+        if (task.getCompleteType() != CompleteType.MANUAL.getType()) {
+            return;
+        }
+        LocalDateTime now = LocalDateTime.now();
+        CompleteLimitResult lr = reachLimit(userId, task, now);
+
+        if (CollectionUtils.isEmpty(lr.getCompleteRecords())) {
+            return;
+        }
+
+        List<CompleteRecordDTO> candidates = lr.getCompleteRecords()
+                .stream()
+                .filter(r -> r.getStatus() == TO_BE_CLAIMED.getStatus())
+                .toList();
+
+        if (CollectionUtils.isEmpty(candidates)) {
+            return;
+        }
+
+        for (CompleteRecordDTO candidate : candidates) {
+            String lockKey = String.format("TriggerTaskLock::%s_%s", userId, task.getId());
+            redisLock.lock(lockKey, 60 * 1000);
+            try {
+                TaskCompleteResult tcr = afterCompleteHandlerFactory.getHandler(
+                        AfterCompleteType.of(task.getAfterCompleteType())
+                        )
+                        .complete(toTriggerParam(userId, candidate, task), task);
+                if (tcr.getCode() != 0) {
+                    continue;
+                }
+
+                completeRecordService.updateStatus(candidate.getId(), candidate.getStatus(), DONE.getStatus());
+            } finally {
+                redisLock.unlock(lockKey);
+            }
+        }
+    }
+
+    private TriggerParam toTriggerParam(Long userId, CompleteRecordDTO candidate, TaskDTO task) {
+        TriggerParam tp = new TriggerParam();
+        tp.setUserId(userId);
+        tp.setEventCode(task.getEvents());
+        tp.setSource(candidate.getSource());
+        tp.setUniqueSourceId(candidate.getUniqueSourceId());
+        return tp;
+    }
+
     private UserTaskVO toUserTaskVO(Long userId, TaskDTO taskDTO, LocalDateTime now) {
         UserTaskVO task = new UserTaskVO();
         task.setId(taskDTO.getId());
