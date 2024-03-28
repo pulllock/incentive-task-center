@@ -132,37 +132,39 @@ public class TaskService {
                 .toList();
         LocalDateTime now = LocalDateTime.now();
         return tasks.stream()
-                .map(t -> {
-                    UserTaskVO task = new UserTaskVO();
-                    task.setId(t.getId());
-                    task.setName(t.getName());
-                    task.setDescription(t.getDescription());
-
-                    CompleteLimitResult limitResult = reachLimit(userId, t, now);
-                    task.setLimitNumber(limitResult.getLimitNumber());
-                    task.setCompletedNumber(limitResult.getCompletedNumber());
-                    task.setToBeClaimedNumber(limitResult.getToBeClaimedNumber());
-
-                    int status = UNDONE.getStatus();
-                    if (limitResult.getReachLimit()) {
-                        status = DONE.getStatus();
-                    }
-
-                    if (limitResult.getToBeClaimedNumber() > 0) {
-                        status = TO_BE_CLAIMED.getStatus();
-                    }
-                    task.setStatus(status);
-
-                    // 按钮文案
-                    task.setButtonText(t.getButtonConfig().getText().get(task.getStatus()));
-
-                    // 链接
-                    if (t.getRedirectLinkConfig().getUrl() != null) {
-                        task.setUrl(t.getRedirectLinkConfig().getUrl().get(task.getStatus()));
-                    }
-                    return task;
-                })
+                .map(task -> toUserTaskVO(userId, task, now))
                 .collect(Collectors.toList());
+    }
+
+    private UserTaskVO toUserTaskVO(Long userId, TaskDTO taskDTO, LocalDateTime now) {
+        UserTaskVO task = new UserTaskVO();
+        task.setId(taskDTO.getId());
+        task.setName(taskDTO.getName());
+        task.setDescription(taskDTO.getDescription());
+
+        CompleteLimitResult limitResult = reachLimit(userId, taskDTO, now);
+        task.setLimitNumber(limitResult.getLimitNumber());
+        task.setCompletedNumber(limitResult.getCompletedNumber());
+        task.setToBeClaimedNumber(limitResult.getToBeClaimedNumber());
+
+        int status = UNDONE.getStatus();
+        if (limitResult.getReachLimit()) {
+            status = DONE.getStatus();
+        }
+
+        if (limitResult.getToBeClaimedNumber() > 0) {
+            status = TO_BE_CLAIMED.getStatus();
+        }
+        task.setStatus(status);
+
+        // 按钮文案
+        task.setButtonText(taskDTO.getButtonConfig().getText().get(task.getStatus()));
+
+        // 链接
+        if (taskDTO.getRedirectLinkConfig().getUrl() != null) {
+            task.setUrl(taskDTO.getRedirectLinkConfig().getUrl().get(task.getStatus()));
+        }
+        return task;
     }
 
     private boolean checkEvent(TriggerParam param, TriggerLogDTO triggerLog) {
