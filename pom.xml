@@ -32,6 +32,7 @@
         <spock-bom.version>2.4-M4-groovy-4.0</spock-bom.version>
         <spock-reports.version>2.5.1-groovy-4.0</spock-reports.version>
         <gmavenplus-plugin.version>3.0.2</gmavenplus-plugin.version>
+        <mybatis-test-starter.version>3.0.3</mybatis-test-starter.version>
     </properties>
 
     <dependencyManagement>
@@ -87,6 +88,13 @@
                         <artifactId>*</artifactId>
                     </exclusion>
                 </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.mybatis.spring.boot</groupId>
+                <artifactId>mybatis-spring-boot-starter-test</artifactId>
+                <version>${mybatis-test-starter.version}</version>
+                <scope>test</scope>
             </dependency>
 
         </dependencies>
