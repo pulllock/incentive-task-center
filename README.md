@@ -10,4 +10,32 @@
 
 ## jmeter
 
-jmeter测试计划脚本在项目根目录下的jmeter目录中
+jmeter测试计划脚本在项目根目录下的jmeter目录中：[jmeter](./jmeter)
+
+# 接口调用示例
+
+## http-client
+
+接口调用示例在目录：[http-client](./http-client)中
+
+## springdoc/swagger
+
+访问地址：http://localhost:8080/swagger-ui/index.html
+
+# sql文件
+
+sql文件在目录：[sql](./sql)中
+
+# 设计方案
+
+## 系统结构
+
+![系统结构](./doc/系统结构.png)
+
+## 任务组成
+
+![任务组成](./doc/任务组成.png)
+
+## ER图
+
+![ER图](./doc/ER.jpg)
