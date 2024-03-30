@@ -3,6 +3,8 @@ package fun.pullock.incentive.core.dao.mapper;
 import fun.pullock.incentive.core.dao.model.TriggerLogDO;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 public interface TriggerLogMapper {
 
     int deleteByPrimaryKey(Long id);
@@ -40,4 +42,6 @@ public interface TriggerLogMapper {
             @Param("newStatus") int newStatus,
             @Param("processResult") String processResults
     );
+
+    List<TriggerLogDO> selectFailedLogs();
 }

@@ -1,5 +1,6 @@
 package fun.pullock.incentive.core.service;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import fun.pullock.general.model.ServiceException;
 import fun.pullock.incentive.core.dao.mapper.TriggerLogMapper;
 import fun.pullock.incentive.core.dao.model.TriggerLogDO;
@@ -8,13 +9,13 @@ import fun.pullock.incentive.core.model.dto.TriggerLogDTO;
 import fun.pullock.incentive.core.model.dto.TriggerLogProcessResultDTO;
 import fun.pullock.starter.json.Json;
 import jakarta.annotation.Resource;
-import org.springframework.beans.BeanUtils;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import static fun.pullock.incentive.core.enums.TriggerLogStatus.PROCESSING;
 
@@ -36,6 +37,8 @@ public class TriggerLogService {
             triggerLogDO.setUpdateTime(triggerLogDO.getCreateTime());
             triggerLogDO.setUserId(triggerLog.getUserId());
             triggerLogDO.setEventCode(triggerLog.getEventCode());
+            triggerLogDO.setEventRuleData(Json.toJson(triggerLogDO.getEventRuleData()));
+            triggerLogDO.setEventTime(triggerLog.getEventTime());
             triggerLogDO.setStatus(PROCESSING.getStatus());
             triggerLogDO.setSource(triggerLog.getSource());
             triggerLogDO.setUniqueSourceId(triggerLog.getUniqueSourceId());
@@ -61,13 +64,27 @@ public class TriggerLogService {
         return triggerLogMapper.updateResult(id, oldStatus, newStatus, Json.toJson(processResults)) == 1;
     }
 
+    public List<TriggerLogDTO> queryFailedLogs() {
+        return triggerLogMapper.selectFailedLogs().stream().map(this::toTriggerLogDTO).collect(Collectors.toList());
+    }
+
     private TriggerLogDTO toTriggerLogDTO(TriggerLogDO source) {
         if (source == null) {
             return null;
         }
 
         TriggerLogDTO target = new TriggerLogDTO();
-        BeanUtils.copyProperties(source, target);
+        target.setId(source.getId());
+        target.setCreateTime(source.getCreateTime());
+        target.setUpdateTime(source.getUpdateTime());
+        target.setUserId(source.getUserId());
+        target.setEventCode(source.getEventCode());
+        target.setEventRuleData(Json.toObject(source.getEventRuleData(), new TypeReference<>() {}));
+        target.setEventTime(source.getEventTime());
+        target.setStatus(source.getStatus());
+        target.setSource(source.getSource());
+        target.setUniqueSourceId(source.getUniqueSourceId());
+        target.setProcessResult(Json.toObject(source.getProcessResult(), TriggerLogProcessResultDTO.class));
         return target;
     }
 }

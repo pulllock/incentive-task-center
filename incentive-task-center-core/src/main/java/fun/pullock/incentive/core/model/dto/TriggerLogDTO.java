@@ -3,6 +3,7 @@ package fun.pullock.incentive.core.model.dto;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.Map;
 
 @Data
 public class TriggerLogDTO {
@@ -16,6 +17,10 @@ public class TriggerLogDTO {
     private Long userId;
 
     private String eventCode;
+
+    private Map<String, Object> eventRuleData;
+
+    private LocalDateTime eventTime;
 
     private Integer status;
 

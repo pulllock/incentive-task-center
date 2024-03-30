@@ -7,6 +7,8 @@
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="user_id" jdbcType="BIGINT" property="userId" />
     <result column="event_code" jdbcType="VARCHAR" property="eventCode" />
+    <result column="event_rule_data" jdbcType="LONGVARCHAR" property="eventRuleData" />
+    <result column="event_time" jdbcType="TIMESTAMP" property="eventTime" />
     <result column="status" jdbcType="SMALLINT" property="status" />
     <result column="source" jdbcType="VARCHAR" property="source" />
     <result column="unique_source_id" jdbcType="VARCHAR" property="uniqueSourceId" />
@@ -14,7 +16,10 @@
   </resultMap>
 
   <sql id="Base_Column_List">
-    id, create_time, update_time, user_id, event_code, status, source, unique_source_id, process_result
+    id, create_time, update_time,
+    user_id, event_code, event_rule_data,
+    event_time, status, source,
+    unique_source_id, process_result
   </sql>
 
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
@@ -32,12 +37,14 @@
   <insert id="insert" keyColumn="id" keyProperty="id" useGeneratedKeys="true" parameterType="fun.pullock.incentive.core.dao.model.TriggerLogDO">
     insert into trigger_log (
       id, create_time, update_time,
-      user_id, event_code, status, 
-      source, unique_source_id, process_result
+      user_id, event_code, event_rule_data,
+      event_time, status, source,
+      unique_source_id, process_result
     ) values (
       #{id,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP},
-      #{userId,jdbcType=BIGINT}, #{eventCode,jdbcType=VARCHAR}, #{status,jdbcType=SMALLINT}, 
-      #{source,jdbcType=VARCHAR}, #{uniqueSourceId,jdbcType=VARCHAR}, #{processResult,jdbcType=LONGVARCHAR}
+      #{userId,jdbcType=BIGINT}, #{eventCode,jdbcType=VARCHAR}, #{eventRuleData,jdbcType=LONGVARCHAR},
+      #{eventTime,jdbcType=TIMESTAMP}, #{status,jdbcType=SMALLINT}, #{source,jdbcType=VARCHAR},
+      #{uniqueSourceId,jdbcType=VARCHAR}, #{processResult,jdbcType=LONGVARCHAR}
     )
   </insert>
 
@@ -58,6 +65,12 @@
       </if>
       <if test="eventCode != null">
         event_code,
+      </if>
+      <if test="eventRuleData != null">
+        event_rule_data,
+      </if>
+      <if test="eventTime != null">
+        event_time,
       </if>
       <if test="status != null">
         status,
@@ -87,6 +100,12 @@
       </if>
       <if test="eventCode != null">
         #{eventCode,jdbcType=VARCHAR},
+      </if>
+      <if test="eventRuleData != null">
+        #{eventRuleData,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="eventTime != null">
+        #{eventTime,jdbcType=TIMESTAMP},
       </if>
       <if test="status != null">
         #{status,jdbcType=SMALLINT},
@@ -118,6 +137,12 @@
       <if test="eventCode != null">
         event_code = #{eventCode,jdbcType=VARCHAR},
       </if>
+      <if test="eventRuleData != null">
+        event_rule_data = #{eventRuleData,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="eventTime != null">
+        event_time = #{eventTime,jdbcType=TIMESTAMP},
+      </if>
       <if test="status != null">
         status = #{status,jdbcType=SMALLINT},
       </if>
@@ -140,6 +165,8 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       user_id = #{userId,jdbcType=BIGINT},
       event_code = #{eventCode,jdbcType=VARCHAR},
+      event_rule_data = #{eventRuleData,jdbcType=LONGVARCHAR},
+      event_time = #{eventTime,jdbcType=TIMESTAMP},
       status = #{status,jdbcType=SMALLINT},
       source = #{source,jdbcType=VARCHAR},
       unique_source_id = #{uniqueSourceId,jdbcType=VARCHAR},
@@ -181,4 +208,12 @@
     where id = #{id,jdbcType=BIGINT}
       and status = #{oldStatus,jdbcType=SMALLINT}
   </update>
+
+  <select id="selectFailedLogs" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from trigger_log
+    where status = 2
+    order by id asc
+  </select>
 </mapper>

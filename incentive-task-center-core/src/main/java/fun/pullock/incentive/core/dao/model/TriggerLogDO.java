@@ -17,6 +17,10 @@ public class TriggerLogDO {
 
     private String eventCode;
 
+    private String eventRuleData;
+
+    private LocalDateTime eventTime;
+
     private Integer status;
 
     private String source;

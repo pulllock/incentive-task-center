@@ -278,6 +278,8 @@ public class TaskService {
             triggerLog.setUpdateTime(triggerLog.getCreateTime());
             triggerLog.setUserId(param.getUserId());
             triggerLog.setEventCode(param.getEventCode());
+            triggerLog.setEventRuleData(param.getEventRuleData());
+            triggerLog.setEventTime(param.getEventTime());
             triggerLog.setStatus(PROCESSING.getStatus());
             triggerLog.setSource(param.getSource());
             triggerLog.setUniqueSourceId(param.getUniqueSourceId());

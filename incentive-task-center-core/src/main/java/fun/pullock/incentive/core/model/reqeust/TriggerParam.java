@@ -2,6 +2,7 @@ package fun.pullock.incentive.core.model.reqeust;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
+import java.time.LocalDateTime;
 import java.util.Map;
 
 /**
@@ -18,6 +19,9 @@ public class TriggerParam {
 
     @Schema(title = "事件规则数据")
     private Map<String, Object> eventRuleData;
+
+    @Schema(title = "事件发生的时间", description = "格式：yyyy-MM-dd HH:mm:ss，默认为系统当前时间")
+    private LocalDateTime eventTime = LocalDateTime.now();
 
     @Schema(title = "来源")
     private String source;
@@ -47,6 +51,14 @@ public class TriggerParam {
 
     public void setEventRuleData(Map<String, Object> eventRuleData) {
         this.eventRuleData = eventRuleData;
+    }
+
+    public LocalDateTime getEventTime() {
+        return eventTime;
+    }
+
+    public void setEventTime(LocalDateTime eventTime) {
+        this.eventTime = eventTime;
     }
 
     public String getSource() {
