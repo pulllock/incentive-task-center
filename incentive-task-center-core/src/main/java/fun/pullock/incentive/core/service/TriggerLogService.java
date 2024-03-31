@@ -12,9 +12,9 @@ import jakarta.annotation.Resource;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import static fun.pullock.incentive.core.enums.TriggerLogStatus.PROCESSING;
@@ -64,8 +64,8 @@ public class TriggerLogService {
         return triggerLogMapper.updateResult(id, oldStatus, newStatus, Json.toJson(processResults)) == 1;
     }
 
-    public List<TriggerLogDTO> queryFailedLogs() {
-        return triggerLogMapper.selectFailedLogs().stream().map(this::toTriggerLogDTO).collect(Collectors.toList());
+    public List<TriggerLogDTO> queryFailedLogs(Long lastId, LocalDateTime endTime, Integer batchSize) {
+        return triggerLogMapper.selectFailedLogs(lastId, endTime, batchSize).stream().map(this::toTriggerLogDTO).collect(Collectors.toList());
     }
 
     private TriggerLogDTO toTriggerLogDTO(TriggerLogDO source) {

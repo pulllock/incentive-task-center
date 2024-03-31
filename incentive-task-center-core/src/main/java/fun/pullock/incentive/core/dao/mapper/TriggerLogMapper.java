@@ -3,6 +3,7 @@ package fun.pullock.incentive.core.dao.mapper;
 import fun.pullock.incentive.core.dao.model.TriggerLogDO;
 import org.apache.ibatis.annotations.Param;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface TriggerLogMapper {
@@ -43,5 +44,9 @@ public interface TriggerLogMapper {
             @Param("processResult") String processResults
     );
 
-    List<TriggerLogDO> selectFailedLogs();
+    List<TriggerLogDO> selectFailedLogs(
+            @Param("lastId") Long lastId,
+            @Param("endTime") LocalDateTime endTime,
+            @Param("batchSize") Integer batchSize
+    );
 }

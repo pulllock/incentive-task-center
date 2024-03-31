@@ -213,7 +213,15 @@
     select
     <include refid="Base_Column_List" />
     from trigger_log
-    where status = 2
-    order by id asc
+    <where>
+      <if test="lastId != null">
+        and id > #{id,jdbcType=BIGINT}
+      </if>
+      <if test="endTime != null">
+        and create_time >= #{endTime,jdbcType=TIMESTAMP}
+      </if>
+        and status = 2
+    </where>
+    order by id asc limit #{batchSize}
   </select>
 </mapper>
