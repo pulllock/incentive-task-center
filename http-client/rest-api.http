@@ -1,5 +1,5 @@
 ### 触发激励任务：每日登录
-POST http://localhost:8080/app/task/trigger
+POST http://localhost:8081/app/task/trigger
 Content-Type: application/json
 
 {
@@ -13,7 +13,7 @@ Content-Type: application/json
 }
 
 ### 触发激励任务：邀请好友
-POST http://localhost:8080/app/task/trigger
+POST http://localhost:8081/app/task/trigger
 Content-Type: application/json
 
 {
@@ -27,7 +27,7 @@ Content-Type: application/json
 }
 
 ### 触发激励任务：每日签到
-POST http://localhost:8080/app/task/trigger
+POST http://localhost:8081/app/task/trigger
 Content-Type: application/json
 
 {
@@ -41,7 +41,7 @@ Content-Type: application/json
 }
 
 ### 触发激励任务：分享
-POST http://localhost:8080/app/task/trigger
+POST http://localhost:8081/app/task/trigger
 Content-Type: application/json
 
 {
@@ -55,7 +55,7 @@ Content-Type: application/json
 }
 
 ### 触发激励任务：购买产品
-POST http://localhost:8080/app/task/trigger
+POST http://localhost:8081/app/task/trigger
 Content-Type: application/json
 
 {
@@ -69,7 +69,7 @@ Content-Type: application/json
 }
 
 ### 触发激励任务：成为会员
-POST http://localhost:8080/app/task/trigger
+POST http://localhost:8081/app/task/trigger
 Content-Type: application/json
 
 {
@@ -83,7 +83,7 @@ Content-Type: application/json
 }
 
 ### 触发激励任务：首次完成付费
-POST http://localhost:8080/app/task/trigger
+POST http://localhost:8081/app/task/trigger
 Content-Type: application/json
 
 {
@@ -97,7 +97,7 @@ Content-Type: application/json
 }
 
 ### 触发激励任务：注册
-POST http://localhost:8080/app/task/trigger
+POST http://localhost:8081/app/task/trigger
 Content-Type: application/json
 
 {
@@ -111,4 +111,4 @@ Content-Type: application/json
 }
 
 ### 查询任务列表
-GET http://localhost:8080/app/task/list
+GET http://localhost:8081/app/task/list

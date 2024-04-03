@@ -37,7 +37,7 @@ public class TriggerLogService {
             triggerLogDO.setUpdateTime(triggerLogDO.getCreateTime());
             triggerLogDO.setUserId(triggerLog.getUserId());
             triggerLogDO.setEventCode(triggerLog.getEventCode());
-            triggerLogDO.setEventRuleData(Json.toJson(triggerLogDO.getEventRuleData()));
+            triggerLogDO.setEventRuleData(Json.toJson(triggerLog.getEventRuleData()));
             triggerLogDO.setEventTime(triggerLog.getEventTime());
             triggerLogDO.setStatus(PROCESSING.getStatus());
             triggerLogDO.setSource(triggerLog.getSource());
@@ -84,7 +84,7 @@ public class TriggerLogService {
         target.setStatus(source.getStatus());
         target.setSource(source.getSource());
         target.setUniqueSourceId(source.getUniqueSourceId());
-        target.setProcessResult(Json.toObject(source.getProcessResult(), TriggerLogProcessResultDTO.class));
+        target.setProcessResult(Json.toArray(source.getProcessResult(), TriggerLogProcessResultDTO.class));
         return target;
     }
 }

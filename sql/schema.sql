@@ -41,7 +41,7 @@ CREATE TABLE task (
   description          varchar(255)                                DEFAULT NULL COMMENT '描述',
   type                 smallint(6)                        NOT NULL DEFAULT 1 COMMENT '类型，取值：1-普通任务 2-可下发任务',
   sequence_weight      int(10)                            NOT NULL DEFAULT 0 COMMENT '顺序权重，权重越小排序越靠前',
-  events               json                               NOT NULL COMMENT '关联的事件（JSON数组）',
+  events               varchar(32)                        NOT NULL COMMENT '关联的事件（JSON数组）',
   complete_rule        json                               NOT NULL COMMENT '完成规则（JSON格式）',
   complete_limit_rule  json                               NOT NULL COMMENT '完成次数限制规则（JSON格式）',
   complete_type        smallint(6)                        NOT NULL DEFAULT 1 COMMENT '完成类型，取值：1-手动领取 2-自动完成',
