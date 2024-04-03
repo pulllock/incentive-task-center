@@ -2,12 +2,10 @@ package fun.pullock.incentive.core.strategy.task.complete.after;
 
 import feign.FeignException;
 import fun.pullock.api.model.param.GrantParam;
-import fun.pullock.general.model.ServiceException;
-import fun.pullock.incentive.core.enums.ErrorCode;
-import fun.pullock.incentive.core.model.reqeust.TriggerParam;
 import fun.pullock.incentive.core.enums.AfterCompleteType;
 import fun.pullock.incentive.core.model.dto.TaskCompleteResult;
 import fun.pullock.incentive.core.model.dto.TaskDTO;
+import fun.pullock.incentive.core.model.reqeust.TriggerParam;
 import fun.pullock.incentive.core.proxy.points.PointsClientService;
 import jakarta.annotation.Resource;
 import org.slf4j.Logger;
@@ -44,9 +42,6 @@ public class AfterCompletePointsHandler implements AfterCompleteHandler {
             grantParam.setBizDescription(task.getName());
             boolean result = pointsClientService.grant(grantParam);
             return new TaskCompleteResult(0, String.valueOf(result));
-        } catch (ServiceException e) {
-            LOGGER.error("After complete task to grant points error, param: {}, task: {}, cause: ", param, task, e);
-            return new TaskCompleteResult(e.getErrorCode(), e.getErrorMsg());
         } catch (FeignException e) {
             LOGGER.error("After complete task to grant points error, param: {}, task: {}, cause: ", param, task, e);
             return new TaskCompleteResult(e.status(), e.getMessage());
