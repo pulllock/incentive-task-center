@@ -1,7 +1,7 @@
 package fun.pullock.incentive.core.strategy.task.complete.after;
 
 import feign.FeignException;
-import fun.pullock.api.model.param.GrantParam;
+import fun.pullock.points.api.model.param.GrantParam;
 import fun.pullock.incentive.core.enums.AfterCompleteType;
 import fun.pullock.incentive.core.model.dto.TaskCompleteResult;
 import fun.pullock.incentive.core.model.dto.TaskDTO;
